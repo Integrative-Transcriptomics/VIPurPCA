@@ -43,11 +43,11 @@ def sample_input_blobs(n_classes=3, n_samples=50, n_features=2, cluster_std=1, u
 
     if isinstance(n_classes, int):
         n_classes = n_classes
-        X, y = make_blobs(n_samples=n_samples, n_features=n_features, centers=n_classes, cluster_std=cluster_std, random_state=random_state)
+        X, y = make_blobs(n_samples=n_samples, n_features=n_features, centers=n_classes, cluster_std=cluster_std, random_state=random_state, shuffle=False)
     else:
         centers = n_classes
         n_classes = np.shape(centers)[0]
-        X, y = make_blobs(n_samples=n_samples, n_features=n_features, centers=centers, cluster_std=cluster_std, random_state=random_state)
+        X, y = make_blobs(n_samples=n_samples, n_features=n_features, centers=centers, cluster_std=cluster_std, random_state=random_state, shuffle=False)
 
     print(n_classes)
     if uncertainty_type == 'equal_per_class':
@@ -59,10 +59,10 @@ def sample_input_blobs(n_classes=3, n_samples=50, n_features=2, cluster_std=1, u
         V = np.identity(np.shape(X)[0])
         W = np.diag(uncertainties)
 
-    print(W)
     # generate samples with noise
     Y = X + (np.linalg.cholesky(V) @ np.random.standard_normal(np.shape(X))) @ np.transpose(np.linalg.cholesky(W))
     cov_Y = np.kron(W, V)
+
 
     return X, y, Y, V, W, cov_Y
 

@@ -7,7 +7,6 @@ from generate_samples import equipotential_standard_normal, exp_map
 import plotly.graph_objects as go
 from sklearn.preprocessing import normalize
 from plotly.offline import plot
-
 # def gs(X):
 #     Q, R = scipy.linalg.qr(X, pivoting=False)
 #     return Q
@@ -33,7 +32,9 @@ class Animation:
             columns=(['frame', 'uncertainty', 'influence', 'sample'] + ['PC ' + str(i) for i in range(self.pca.n_components)]))
 
     def compute_frames(self):
+        print('Hello')
         L = np.linalg.cholesky(self.pca.cov_eigenvectors + 1e-6 * np.eye(len(self.pca.cov_eigenvectors)))
+        print('L', np.shape(L))
         vec_mean_eigenvectors = self.pca.eigenvectors[:, 0:self.pca.n_components].flatten('F')
         s = equipotential_standard_normal(self.pca.size[1] * self.pca.n_components, self.n_frames)  # draw samples from equipotential manifold
         if self.type == 'equal_per_cluster':
@@ -45,14 +46,15 @@ class Animation:
         sample = np.expand_dims(np.array([i for i in range(self.pca.size[0])]), axis=1)
 
         for i in range(self.n_frames):  # one sample per frame
-            print('frame', i, 'done')
+        #     print('frame', i, 'done')
         #     print('np.shape(vec_mean_eigenvectors)', np.shape(vec_mean_eigenvectors))
         #     print('np.dot(np.transpose(L)', np.shape(np.transpose(L)))
         #     print(' s[:, i]', np.shape(s[:, i]))
-            U = np.reshape(np.expand_dims(vec_mean_eigenvectors + np.dot(np.transpose(L), s[:, i]), axis=1),
-                           [self.pca.size[1], self.pca.n_components])
+            U = np.transpose(np.reshape(np.expand_dims(vec_mean_eigenvectors + np.dot(np.transpose(L), s[:, i]), axis=1),
+                           [self.pca.size[1], self.pca.n_components]))
             U = normalize(U, axis=0)
             U = gs(U)
+
             T = pd.DataFrame(
                 columns=(['frame', 'uncertainty', 'influence', 'sample'] + ['PC ' + str(i) for i in range(self.pca.n_components)]),
                 data=np.concatenate((np.expand_dims(np.array([int(i) for j in range(self.pca.size[0])]), axis=1),
@@ -219,7 +221,7 @@ class Animation:
         explained_var_pc2 = (self.pca.eigenvalues[1]/np.sum(self.pca.eigenvalues))
         fig = go.Figure(
                 data=[go.Scatter(x=self.animation_data[self.animation_data['frame'] == 0]['PC 0'], y=self.animation_data[self.animation_data['frame'] == 0]['PC 1'], name='Influence',
-                                 mode="markers", marker=dict(color=self.animation_data['uncertainty'], colorbar=dict(title='Uncertainty (std)'), colorscale='darkmint_r', size=self.animation_data['influence'], sizemode='area',
+                                 mode="markers", marker=dict(color=self.animation_data['uncertainty'], colorbar=dict(title='Variance'), colorscale='Blues', size=self.animation_data['influence'], sizemode='area',
                                                              sizeref=4.*max(self.animation_data['influence'])/(40.**2), sizemin=1, line=dict(width=1,
                                         color='DarkSlateGrey'), symbol=self.labels)
                                  )],
@@ -238,6 +240,7 @@ class Animation:
                         t=0,
                         pad=0
                     ),
+                    yaxis=dict(scaleanchor="x", scaleratio=1)
                     #plot_bgcolor='rgba(159,154,167,0.8)'
                 ),
                 frames=[go.Frame(
@@ -245,9 +248,9 @@ class Animation:
                         x=self.animation_data[self.animation_data['frame'] == k]['PC 0'],
                         y=self.animation_data[self.animation_data['frame'] == k]['PC 1'],
                         mode="markers",
-                        marker=dict(color=self.animation_data['uncertainty'], colorbar=dict(title='Uncertainty (cov)'), colorscale='darkmint_r',
+                        marker=dict(color=self.animation_data['uncertainty'], colorbar=dict(title=''), colorscale='Blues',
                                     size=self.animation_data['influence'], sizemode='area',
-                                    sizeref=4. * max(self.animation_data['influence']) / (40. ** 2), sizemin=1, symbol=self.labels),
+                                    sizeref=3. * max(self.animation_data['influence']) / (40. ** 2), sizemin=1, symbol=self.labels),
                     )]) for k in range(self.n_frames)
                 ]
             )
@@ -261,7 +264,17 @@ class Animation:
                         shape='spline'))
             )
 
-        fig.write_image(outfile+'.pdf', width=800, height=400)
+        # Constants factors
+        marginInches = 0
+        ppi = 96
+        width_inches = 11.87*0.394
+        height_inches = 5.9*0.394
+
+        fig.write_image(outfile+'.pdf',
+                        #width=(width_inches - marginInches)*ppi,
+                        #height=(height_inches - marginInches)*ppi,
+                        #scale=1
+                        )
 
         fig.update_layout(
             xaxis=dict(
@@ -295,7 +308,7 @@ class Animation:
 
         fig.write_html(outfile+'.html')
 
-        fig.show()
+        #fig.show()
 
 # if __name__ == '__main__':
 #     # generate data

@@ -34,39 +34,42 @@ class PCA(DimensionReductionMethod):
 
     def pca_value(self):
         self.covariance = 1 / self.matrix.shape[0] * np.dot(np.transpose(self.matrix), self.matrix)
+        print('cov', self.covariance)
         self.eigenvalues, self.eigenvectors = np.linalg.eigh(self.covariance)
-        print('eigenvalues type', type(self.eigenvalues))
+        #print('eigenvalues type', type(self.eigenvalues))
         sorting = np.argsort(-self.eigenvalues, axis=0)
-        self.eigenvalues = np.sort(-self.eigenvalues, axis=0)
+        self.eigenvalues = -np.sort(-self.eigenvalues, axis=0)
         self.eigenvectors = np.transpose(self.eigenvectors[:, sorting])
         return self.eigenvectors
 
     def pca_grad(self):
+        #print('matrix', self.matrix)
+
         # center data
-        self.matrix = self.matrix - np.mean(self.matrix)
+        self.matrix = self.matrix - np.mean(self.matrix, axis=0)
 
         if self.compute_jacobian:   # compute jacobian
             self.jacobian = jacrev(pca_forward)(self.matrix)
             self.pca_value()
 
         else:   # do not compute jacobian
-            self.matrix = self.matrix - np.mean(self.matrix)
-            self.pca_value(self.matrix)
+            self.pca_value()
 
         # transpose eigenvectors to be in columns
         self.eigenvectors = np.transpose(self.eigenvectors)
 
-        # sort Jacobian
-        self.jacobian = np.reshape(
-            (np.reshape(self.jacobian, (self.size[1], self.size[1], self.size[0]*self.size[1]), order='F')),
-            (self.size[1]*self.size[1],
-             self.size[0]*self.size[1]))
+        if self.compute_jacobian:
+            # sort Jacobian
+            self.jacobian = np.reshape(
+                (np.reshape(self.jacobian, (self.size[1], self.size[1], self.size[0]*self.size[1]), order='F')),
+                (self.size[1]*self.size[1],
+                 self.size[0]*self.size[1]))
 
     def transform_data(self):
         if self.eigenvalues is None:
             raise Exception('eigenvalues and eigenvectors not computed yet.')
         else:
-            self.transformed_data = np.dot(self.matrix, self.eigenvectors[:, 0:self.n_components])
+            self.transformed_data = np.dot(self.matrix, self.eigenvectors)
 
     def compute_cov_eigenvectors(self):
         self.cov_eigenvectors = np.dot(np.dot(self.jacobian, self.cov_data), np.transpose(self.jacobian))
