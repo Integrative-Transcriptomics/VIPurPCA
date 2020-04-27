@@ -240,7 +240,7 @@ class Animation:
                         t=0,
                         pad=0
                     ),
-                    yaxis=dict(scaleanchor="x", scaleratio=1)
+#                    yaxis=dict(scaleanchor="x", scaleratio=1)
                     #plot_bgcolor='rgba(159,154,167,0.8)'
                 ),
                 frames=[go.Frame(
@@ -280,10 +280,10 @@ class Animation:
             xaxis=dict(
                 constrain="domain",  # meanwhile compresses the xaxis by decreasing its "domain"
             ),
-            yaxis=dict(
-                scaleanchor="x",
-                scaleratio=1,
-            ),
+ #           yaxis=dict(
+ #               scaleanchor="x",
+ #               scaleratio=1,
+ #           ),
             margin=dict(
                 l=0,
                 r=0,

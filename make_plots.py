@@ -5,7 +5,7 @@ from sklearn.metrics.pairwise import euclidean_distances
 import pandas as pd
 import numpy as np
 
-def make_plots(X, y, Y, V, W, cov_Y, n_features, pca, experiment_folder, show_plots=False):
+def make_plots(y, Y, V, W, cov_Y, n_features, pca, experiment_folder, show_plots=False):
     labels = y
     pal = sns.hls_palette(np.size(np.unique(labels)))
     lut = dict(zip(np.unique(labels), pal))

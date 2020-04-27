@@ -87,7 +87,8 @@ if __name__ == '__main__':
     y = d['label']
     y = [1 if i=='M' else 0 for i in y]
     Y = d.iloc[:, 1:11].to_numpy()
-    cov_Y = np.diag(d.iloc[:, 11:21].to_numpy().transpose().flatten()**2)
+    cov_Y = np.diag(d.iloc[:, 11:21].to_numpy().transpose().flatten())
+    #cov_Y = np.diag([0.001 for i in range(np.shape(Y)[0]*np.shape(Y)[1])])
     fake_W = np.identity(np.shape(Y)[1])
     fake_V = np.identity(np.shape(Y)[0])
     n_features = np.shape(Y)[1]
@@ -100,7 +101,8 @@ if __name__ == '__main__':
     animation = Animation(pca=pca, n_frames=50, labels=y, cov_samples=fake_V, cov_variables=fake_W, type='equal_per_cluster')
     animation.compute_frames()
     animation.animate(OUTPUT_FOLDER + 'Wisconsin')
-
+    make_plots(y, Y, fake_V, fake_W, cov_Y, n_features, pca, OUTPUT_FOLDER, show_plots=False)
+    
     # ######################################################
     # #            error equal per dimension               #
     # ######################################################
