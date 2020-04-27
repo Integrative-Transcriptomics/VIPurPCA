@@ -75,3 +75,21 @@ def sample_input_circles(n_samples=50, noise=1, factor=0.8, random_state=1234, u
 
     return X, y, Y, V, W, cov_Y
 
+def wisconsin_data_set():
+    args = parse_args()
+    input = args.infile
+    OUTPUT_FOLDER = args.outputfolder
+
+    wisconsin_names = ['ID', 'label', 'radius_mean', 'texture_mean', 'perimeter_mean', 'area_mean', 'smoothness_mean', 'compactness_mean', 'concavity_mean',
+                       'concave points_mean', 'symmetry_mean', 'fractal dimension_mean', 'radius_se', 'texture_se', 'perimeter_se', 'area_se', 'smoothness_se', 'compactness_se', 'concavity_se',
+                       'concave points_se', 'symmetry_se', 'fractal dimension_se', 'radius_worst', 'texture_worst', 'perimeter_worst', 'area_worst', 'smoothness_worst', 'compactness_worst', 'concavity_worst',
+                       'concave points_worst', 'symmetry_worst', 'fractal dimension_worst']
+    d = pd.read_csv(input, sep=',', header=0, names=wisconsin_names, index_col=0)
+
+    y = d['label']
+    y = [1 if i=='M' else 0 for i in y]
+    Y = d.iloc[:, 1:11].to_numpy()
+    cov_Y = np.diag(d.iloc[:, 11:21].to_numpy().transpose().flatten()**2)
+    fake_W = np.identity(np.shape(Y)[1])
+    fake_V = np.identity(np.shape(Y)[0])
+    return y, Y, fake_V, fake_W, cov_Y

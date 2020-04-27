@@ -75,12 +75,15 @@ def make_plots(X, y, Y, V, W, cov_Y, n_features, pca, experiment_folder, show_pl
     ###########################################################################################
 
     f = plt.figure()
-    ax1 = sns.heatmap(W, cmap='Greens', xticklabels=False, yticklabels=False, cbar_kws={'label': 'dimensions noise variance'})
+    ax1 = sns.heatmap(W, cmap='Greens',
+                      xticklabels=['' for i in range(1, np.shape(W)[1]+1)],
+                      yticklabels=['' for i in range(1, np.shape(W)[0]+1)], cbar_kws={'label': 'dimensions noise variance'})
     # ###########################   x0,   y0,   dx,   dy
     # ax1.ax_heatmap.set_position([0.15, 0.07, 0.8, 0.8])
     # ax1.set(xlabel='Variables noise',
     #         ylabel='Variables noise', )
     # ax1.fig.suptitle('Euclidean Distance Matrix')
+    ax1.xaxis.set_label_position('top')
     plt.savefig(experiment_folder + 'variables_noise_covariance_matrix.pdf')
     if show_plots:
         plt.show()

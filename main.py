@@ -3,7 +3,7 @@
 import sys
 import os
 import argparse
-from generate_samples import equipotential_standard_normal, exp_map, sample_input_blobs, sample_input_circles
+from generate_samples import equipotential_standard_normal, exp_map, sample_input_blobs, sample_input_circles, wisconsin_data_set
 from PCA import PCA
 #from data_mnist import get_mnist_dataset
 from Animation import Animation
@@ -16,7 +16,7 @@ import pandas as pd
 from matplotlib import rc
 #plt.rc('text', usetex=True)
 #plt.rc('font', family='serif')
-
+#from sklearn.decomposition import PCA
 
 #define colormap
 darkmint_r = px.colors.sequential.Darkmint
@@ -74,32 +74,23 @@ def parse_args():
 
 if __name__ == '__main__':
     #os.environ["PATH"] += os.pathsep + '/Library/TeX/texbin'    # add latex to path
-    args = parse_args()
-    input = args.infile
-    OUTPUT_FOLDER = args.outputfolder
 
-    wisconsin_names = ['ID', 'label', 'radius_mean', 'texture_mean', 'perimeter_mean', 'area_mean', 'smoothness_mean', 'compactness_mean', 'concavity_mean',
-                       'concave points_mean', 'symmetry_mean', 'fractal dimension_mean', 'radius_se', 'texture_se', 'perimeter_se', 'area_se', 'smoothness_se', 'compactness_se', 'concavity_se',
-                       'concave points_se', 'symmetry_se', 'fractal dimension_se', 'radius_worst', 'texture_worst', 'perimeter_worst', 'area_worst', 'smoothness_worst', 'compactness_worst', 'concavity_worst',
-                       'concave points_worst', 'symmetry_worst', 'fractal dimension_worst']
-    d = pd.read_csv(input, sep=',', header=0, names=wisconsin_names, index_col=0)
+    y, Y, fake_V, fake_W, cov_Y = wisconsin_data_set()
 
-    y = d['label']
-    y = [1 if i=='M' else 0 for i in y]
-    Y = d.iloc[:, 1:11].to_numpy()
-    cov_Y = np.diag(d.iloc[:, 11:21].to_numpy().transpose().flatten()**2)
-    fake_W = np.identity(np.shape(Y)[1])
-    fake_V = np.identity(np.shape(Y)[0])
     n_features = np.shape(Y)[1]
     #pca = apply_animation(y, Y, fake_V, fake_W, cov_Y, n_features, OUTPUT_FOLDER + 'Wisonsin')
-    pca = PCA(matrix=Y, cov_data=cov_Y, n_components=n_features, axis=0, compute_jacobian=True)
+    pca = PCA(matrix=Y, cov_data=cov_Y, n_components=n_features, axis=0, compute_jacobian=False)
     pca.pca_grad()
     pca.transform_data()
-    pca.compute_cov_eigenvectors()
-    print('cov_eigencevtors', pca.cov_eigenvectors)
-    animation = Animation(pca=pca, n_frames=50, labels=y, cov_samples=fake_V, cov_variables=fake_W, type='equal_per_cluster')
-    animation.compute_frames()
-    animation.animate(OUTPUT_FOLDER + 'Wisconsin')
+    pca.plot_variance_explained_by_eigenvectors(n_features)
+    f = plt.figure()
+    plt.scatter(pca.transformed_data[:, 0], pca.transformed_data[:, 1], c=y)
+    plt.show()
+    # pca.compute_cov_eigenvectors()
+    # print('cov_eigencevtors', pca.cov_eigenvectors)
+    # animation = Animation(pca=pca, n_frames=50, labels=y, cov_samples=fake_V, cov_variables=fake_W, type='equal_per_cluster')
+    # animation.compute_frames()
+    # animation.animate(OUTPUT_FOLDER + 'Wisconsin')
 
     # ######################################################
     # #            error equal per dimension               #

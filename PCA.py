@@ -78,8 +78,8 @@ class PCA(DimensionReductionMethod):
         if n==None:
             n = len(self.eigenvalues)
         fig = plt.figure()
-        plt.bar([i for i in range(0, n)], (self.eigenvalues.asnumpy() / np.sum(self.eigenvalues.asnumpy()))[0:n])
-        plt.plot([i for i in range(0, n)], np.cumsum(self.eigenvalues.asnumpy() / np.sum(self.eigenvalues.asnumpy()))[0:n], '-bo', c='red')
+        plt.bar([i for i in range(0, n)], (self.eigenvalues / np.sum(self.eigenvalues))[0:n])
+        plt.plot([i for i in range(0, n)], np.cumsum(self.eigenvalues / np.sum(self.eigenvalues))[0:n], '-bo', c='red')
         plt.show()
 
     # def transform_jax_attributes_to_numpy(self):
