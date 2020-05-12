@@ -1,6 +1,8 @@
 #!/usr/bin/python
 import numpy as np
 from sklearn.datasets import make_blobs, make_circles
+import argparse
+import pandas
 
 def equipotential_standard_normal(d, n):
     '''Draws n samples from standard normal multivariate gaussian distribution of dimension d which are equipotential
@@ -75,6 +77,18 @@ def sample_input_circles(n_samples=50, noise=1, factor=0.8, random_state=1234, u
 
     return X, y, Y, V, W, cov_Y
 
+def parse_args():
+
+    parser = argparse.ArgumentParser(
+        description='',
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+        )
+    parser.add_argument('-i', '--infile',
+        help="Input data matrix")
+    parser.add_argument('-o', '--outputfolder', default=None,
+        help="The output folder")
+    return parser.parse_args()
+
 def wisconsin_data_set():
     args = parse_args()
     input = args.infile
@@ -92,4 +106,4 @@ def wisconsin_data_set():
     cov_Y = np.diag(d.iloc[:, 11:21].to_numpy().transpose().flatten()**2)
     fake_W = np.identity(np.shape(Y)[1])
     fake_V = np.identity(np.shape(Y)[0])
-    return y, Y, fake_V, fake_W, cov_Y
+    return y, Y, fake_V, fake_W, cov_Y, OUTPUT_FOLDER
