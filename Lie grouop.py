@@ -18,7 +18,8 @@ def equipotential_standard_normal(d, n):
     x = np.array([[0], [1], [0]])
     r = np.sqrt(np.sum(x ** 2))  # ||x||
     x = x / r  # project sample on d-1-dimensional UNIT sphere --> x just defines direction
-    t = np.random.standard_normal((d, 1))  # draw tangent sample
+    #t = np.random.standard_normal((d, 1))  # draw tangent sample
+    t = np.array([[-0.35], [-0.4], [0.25]])
     t = t - (np.dot(np.transpose(t), x) * x)  # Gram Schmidth orthogonalization --> determines which circle is traversed
     t = t / (np.sqrt(np.sum(t ** 2)))  # standardize ||t|| = 1
     save_t = t
@@ -55,8 +56,8 @@ def main():
 
     p, p2, mu, E = equipotential_standard_normal(3, 10)
     #p = [[0, 0], [0, 1], [0, 0]]
-
-    print(E)
+    print(p[0])
+    #print(E)
     f = plt.figure()
     b = Bloch(fig=f)
     b.point_size = [0.1, 7]
@@ -70,10 +71,91 @@ def main():
     b.add_starts(mu.flatten())
     b.add_vectors(E[:, 2] + mu.flatten())
     b.zlabel = ['', '']
+    b.add_annotation(p[:, 0]+0.05, '$u_0$', fontsize=11)
+    b.add_annotation(p[:, 1]-0.05, '$u_1$', fontsize=11)
+    b.add_annotation(p[:, 2]-0.05, '$u_2$', fontsize=11)
     b.render()
     plt.show()
     plt.show(f)
 
+    # f, ax = plt.subplots()
+    # circle = plt.Circle((0, 0), 1, fill=False)
+    # plt.xlim(-1.25, 1.25)
+    # plt.ylim(-1.25, 1.25)
+    #
+    # plt.grid(linestyle='--')
+    #
+    # ax.set_aspect(1)
+    #
+    # ax.add_artist(circle)
+    #
+    # print(np.shape(p))
+    # plt.show()
+    c, c2, mu2, E2 = equipotential_standard_normal(3, 1000)
+    print(np.shape(p), np.shape(p2))
+
+    azm=-52
+    ele = 24
+
+    from mpl_toolkits.mplot3d import Axes3D
+    fig = plt.figure(figsize=(10, 5))
+    ax = fig.add_subplot(131, projection='3d')
+    ax.plot(c2[0], c2[1], c2[2], c='black')
+    ax.scatter(p[0], p[1], p[2], c='black', marker='s')
+    ax.text(p[0, 1], p[1, 1], p[2, 1]+0.2, '$u_1$')
+    ax.text(p[0, 2]-0.1, p[1, 2], p[2, 2]+0.2, '$u_2$')
+
+    ax.set_xlabel('x')
+    ax.set_ylabel('y')
+    ax.set_zlabel('z')
+    ax.set_xlim3d(-2, 2)
+    ax.set_ylim3d(-2, 2)
+    ax.set_zlim3d(-2, 2)
+    ax.scatter(0, 0, 0, c='red', marker='x')
+    ax.view_init(elev=ele, azim=azm)
+    #plt.show()
+
+    A = np.array([[1, 0.9, 0.5 ],
+                  [0.9, 1.5, 0.2],
+                  [0.5, 0.2, 4]])
+    A = np.linalg.cholesky(A)
+    c2 = np.dot(A, c2)
+    p = np.dot(A, p)
+
+    ax2 = fig.add_subplot(132, projection='3d')
+    ax2.plot(c2[0], c2[1], c2[2], c='black')
+    ax2.scatter(p[0], p[1], p[2], c='black', marker='s')
+    ax2.set_xlabel('x')
+    ax2.set_ylabel('y')
+    ax2.set_zlabel('z')
+    ax2.set_xlim3d(-2, 2)
+    ax2.set_ylim3d(-2, 2)
+    ax2.set_zlim3d(-2, 2)
+    ax2.scatter(0, 0, 0, c='red', marker='x')
+    ax2.text(p[0, 1], p[1, 1], p[2, 1]+0.2, '$u_1$')
+    ax2.text(p[0, 2]-0.1, p[1, 2], p[2, 2]+0.2, '$u_2$')
+    ax2.view_init(elev=ele, azim=azm)
+
+    m = np.array([[-0.5], [-0.3], [1]])
+    c2 = c2 + m
+    p = p + m
+
+    ax3 = fig.add_subplot(133, projection='3d')
+    ax3.plot(c2[0], c2[1], c2[2], c='black')
+    ax3.scatter(p[0], p[1], p[2], c='black', marker='s')
+    ax3.set_xlabel('x')
+    ax3.set_ylabel('y')
+    ax3.set_zlabel('z')
+    ax3.set_xlim3d(-2, 2)
+    ax3.set_ylim3d(-2, 2)
+    ax3.set_zlim3d(-2, 2)
+    ax3.scatter(m[0],m[1],m[2], c='red', marker='x')
+    ax3.text(p[0, 1], p[1, 1], p[2, 1] + 0.2, '$u_1$')
+    ax3.text(p[0, 2] - 0.1, p[1, 2], p[2, 2] + 0.2, '$u_2$')
+    ax3.view_init(elev=ele, azim=azm)
+    plt.tight_layout()
+    plt.savefig('/Users/zabel/temp/test.pdf')
+    plt.show()
 if __name__ == "__main__":
     main()
 
