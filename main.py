@@ -14,7 +14,7 @@ import plotly.express as px
 from make_plots import make_plots
 import pandas as pd
 from matplotlib import rc
-plt.rc('text', usetex=True)
+#plt.rc('text', usetex=True)
 plt.rc('font', family='serif')
 plt.rcParams.update({'font.size': 35})
 #from sklearn.decomposition import PCA
