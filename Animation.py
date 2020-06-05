@@ -299,7 +299,6 @@ class Animation:
         width_inches = 11.87*0.394
         height_inches = 5.9*0.394
 
-        print(fig.frames[1].data[0])
         from plotly.subplots import make_subplots
         fig1 = make_subplots(rows=1, cols=10, shared_yaxes=True, column_titles=['f='+str(i+1) for i in range(11)], x_title='PC1',
                     y_title='PC2')

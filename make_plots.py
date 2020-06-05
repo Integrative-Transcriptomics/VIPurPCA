@@ -31,7 +31,7 @@ def make_plots(y, Y, V, W, cov_Y, n_features, pca, experiment_folder, show_plots
 
                     cmap='Blues', cbar_kws={'label': 'samples noise covariance'},
 
-                    figsize=(10, 10))
+                    )
     for label in np.unique(labels):
         ax1.ax_col_dendrogram.bar(0, 0, color=lut[label],
                                 label=label, linewidth=0)
@@ -66,7 +66,7 @@ def make_plots(y, Y, V, W, cov_Y, n_features, pca, experiment_folder, show_plots
 
                     cmap='Reds', cbar_kws={'label': 'euclidean distance'},
 
-                    figsize=(10, 10))
+                    )
     for label in np.unique(labels):
         ax1.ax_col_dendrogram.bar(0, 0, color=lut[label],
                                 label=label, linewidth=0)
@@ -88,15 +88,18 @@ def make_plots(y, Y, V, W, cov_Y, n_features, pca, experiment_folder, show_plots
     # Plot covariance dimensions
     ###########################################################################################
 
-    f = plt.figure(figsize=(10, 10))
+    f = plt.figure()
     ax1 = sns.heatmap(W, cmap='Greens',
-                      xticklabels=['' for i in range(1, np.shape(W)[1]+1)],
-                      yticklabels=['' for i in range(1, np.shape(W)[0]+1)], cbar_kws={'label': 'variables noise variance'})
+                      xticklabels=[i for i in range(1, np.shape(W)[1]+1)],
+                      yticklabels=[i for i in range(1, np.shape(W)[0]+1)], cbar_kws={'label': 'variables noise variance'},
+                      square=True)
     # ###########################   x0,   y0,   dx,   dy
     # ax1.ax_heatmap.set_position([0.15, 0.07, 0.8, 0.8])
     # ax1.set(xlabel='Variables noise',
     #         ylabel='Variables noise', )
     # ax1.fig.suptitle('Euclidean Distance Matrix')
+    ax1.set(xlabel='Variables',
+            ylabel='Variables', )
     ax1.xaxis.tick_top()
     ax1.yaxis.tick_left()
     #plt.tight_layout()
@@ -119,13 +122,14 @@ def make_plots(y, Y, V, W, cov_Y, n_features, pca, experiment_folder, show_plots
     #print(np.corrcoef(np.transpose(pca.matrix), np.transpose(pca.transformed_data)))
     #print('corr', corr)
 
-    f = plt.figure(figsize=(10, 10))
+    f = plt.figure()
     ax1 = sns.heatmap(corr,
                       vmin=-1, vmax=1,
                       cmap='RdBu',
                       xticklabels=[i for i in range(1, np.shape(corr)[1]+1)],
                       yticklabels=[i for i in range(1, np.shape(corr)[0]+1)],
-                      cbar_kws={'label': 'correlation coefficient'})
+                      cbar_kws={'label': 'correlation coefficient'},
+                      square=True)
     # ax1.ax_heatmap.set_position([0.15, 0.07, 0.8, 0.8])
     ax1.set(xlabel='PCs',
             ylabel='Variables', )

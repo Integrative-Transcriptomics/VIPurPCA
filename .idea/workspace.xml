@@ -2,10 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="aebab597-1ead-499c-a162-492e46007254" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/fig_for_paper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/src.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/src.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Animation.py" beforeDir="false" afterPath="$PROJECT_DIR$/Animation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/generate_samples.py" beforeDir="false" afterPath="$PROJECT_DIR$/generate_samples.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/make_plots.py" beforeDir="false" afterPath="$PROJECT_DIR$/make_plots.py" afterDir="false" />
     </list>
@@ -66,7 +66,7 @@
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="$PROJECT_DIR$/../jax/bin/python" />
+      <option name="SDK_HOME" value="$PROJECT_DIR$/bin/python" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
@@ -129,6 +129,10 @@
       <screen x="0" y="23" width="1440" height="877" />
     </state>
     <state x="1016" y="327" key="#com.intellij.ide.macro.MacrosDialog/0.23.1440.877@0.23.1440.877" timestamp="1587630918305" />
+    <state x="413" y="122" key="#jax" timestamp="1589458745471">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="413" y="122" key="#jax/0.0.1440.900@0.0.1440.900" timestamp="1589458745471" />
     <state x="342" y="55" key="CommitChangelistDialog2" timestamp="1584525245222">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
@@ -231,10 +235,10 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="549" y="167" key="RollbackChangesDialog/0.0.1440.900@0.0.1440.900" timestamp="1584525968800" />
-    <state x="135" y="112" width="900" height="722" key="SettingsEditor" timestamp="1586859815491">
+    <state x="135" y="112" width="900" height="722" key="SettingsEditor" timestamp="1589448105481">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="135" y="112" key="SettingsEditor/0.0.1440.900@0.0.1440.900" timestamp="1586859815491" />
+    <state x="135" y="112" key="SettingsEditor/0.0.1440.900@0.0.1440.900" timestamp="1589448105481" />
     <state x="180" y="151" key="SettingsEditor/0.0.1920.1050/1920.0.1280.1024@0.0.1920.1050" timestamp="1583853685803" />
     <state x="2040" y="147" width="1039" height="735" key="SettingsEditor/0.0.1920.1050/1920.0.1280.1024@1920.0.1280.1024" timestamp="1583231771532" />
     <state x="135" y="126" width="900" height="722" key="SettingsEditor/0.23.1440.825@0.23.1440.825" timestamp="1584525026631" />
