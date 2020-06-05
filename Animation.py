@@ -330,8 +330,12 @@ class Animation:
                        showline=True),
             yaxis=dict(mirror=True,
                        ticks='outside',
-                       showline=True)
+                       showline=True),
+            font=dict(size=18)
         )
+
+
+
         for i in range(2, 11):
             fig1['layout']['xaxis'+str(i)].update(mirror=True,
                                                  ticks='outside',
@@ -339,6 +343,9 @@ class Animation:
             fig1['layout']['yaxis' + str(i)].update(mirror=True,
                                                    ticks='outside',
                                                    showline=True)
+        for i in fig1['layout']['annotations']:
+            i['font']['size'] = 18
+
         #axes = [fig1.layout[e] for e in fig1.layout if e[1:5] == 'axis']
         #print(axes)
         fig1.write_image(outfile+'_frames.pdf', width=2500, height=400, scale=1)
