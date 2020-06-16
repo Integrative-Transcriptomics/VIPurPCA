@@ -83,116 +83,116 @@ if __name__ == '__main__':
     # make_plots(y, Y, fake_V, fake_W, cov_Y, n_features, pca, OUTPUT_FOLDER, show_plots=False)
     
 
-    ######################################################
-    #            error equal per dimension               #
-    ######################################################
-
-    ############# along first PC #################
-    print('start high var along first PC')
-    #define experiment folder
-    experiment_folder = OUTPUT_FOLDER + 'high_var_PC1/'
-    #experiment_folder = OUTPUT_FOLDER + 'test' + '/'
-    os.makedirs(experiment_folder, exist_ok=True)   # overwrite if exists
-
-    sample = np.array([[1, 0.1, -2, 1, 2, 2, 3, 0, 2, 8], [-1, -0.2, 2, -2, -2, 1, 2, 0, 1, 1], [1, 0, 1, 2, 1, -1, 3, 0.5, -1, -1], [-1, 0.01, -1, -1, -1, -4, 0, 0.5, -1, -1], [0, 0, 2, 0, 2, 3, -2, 0, 0, 0]])
-
-
-    n_features = 10
-    X, y, Y, V, W, cov_Y = sample_input_blobs(#n_classes=5,
-                                              n_classes=sample,
-                                              n_samples=50,
-                                              n_features=n_features,
-                                              cluster_std=0, uncertainty_type='equal_per_dimension',
-                                              uncertainties=[0.01, 0.05, 0.01, 0.1, 0.3, 0.1, 0.2, 0.15, 0.2, 3],
-                                              random_state=None)
-
-
-    print(Y.shape)
-    print(cov_Y.shape)
-    pca = apply_animation(y, Y, V, W, cov_Y, n_features, experiment_folder + 'animation')
-    make_plots(y, Y, V, W, cov_Y, n_features, pca, experiment_folder, show_plots=False)
+    # ######################################################
+    # #            error equal per dimension               #
+    # ######################################################
+    #
+    # ############# along first PC #################
+    # print('start high var along first PC')
+    # #define experiment folder
+    # experiment_folder = OUTPUT_FOLDER + 'test/'
+    # #experiment_folder = OUTPUT_FOLDER + 'test' + '/'
+    # os.makedirs(experiment_folder, exist_ok=True)   # overwrite if exists
+    #
+    # sample = np.array([[1, 0.1, -2, 1, 2, 2, 3, 0, 2, 8], [-1, -0.2, 2, -2, -2, 1, 2, 0, 1, 1], [1, 0, 1, 2, 1, -1, 3, 0.5, -1, -1], [-1, 0.01, -1, -1, -1, -4, 0, 0.5, -1, -1], [0, 0, 2, 0, 2, 3, -2, 0, 0, 0]])
+    #
+    #
+    # n_features = 10
+    # X, y, Y, V, W, cov_Y = sample_input_blobs(#n_classes=5,
+    #                                           n_classes=sample,
+    #                                           n_samples=50,
+    #                                           n_features=n_features,
+    #                                           cluster_std=0, uncertainty_type='equal_per_dimension',
+    #                                           uncertainties=[0.01, 0.05, 0.01, 0.1, 0.3, 0.1, 0.2, 0.15, 0.2, 3],
+    #                                           random_state=None)
+    #
+    #
+    # print(Y.shape)
+    # print(cov_Y.shape)
+    # pca = apply_animation(y, Y, V, W, cov_Y, n_features, experiment_folder + 'animation')
+    # make_plots(y, Y, V, W, cov_Y, n_features, pca, experiment_folder, show_plots=False)
     # print('end high var along first PC')
 
-    ########### along unimportant PC #####################
-    print('start high var along last PC')
+    # ########### along unimportant PC #####################
+    # print('start high var along last PC')
+    #
+    # #define experiment folder
+    # experiment_folder = OUTPUT_FOLDER + 'high_var_lastPC/'
+    # #experiment_folder = OUTPUT_FOLDER + 'test' + '/'
+    # os.makedirs(experiment_folder, exist_ok=True)   # overwrite if exists
+    #
+    # X, y, Y, V, W, cov_Y = sample_input_blobs(#n_classes=5,
+    #                                           n_classes=sample,
+    #                                           n_samples=70,
+    #                                           n_features=n_features,
+    #                                           cluster_std=0, uncertainty_type='equal_per_dimension',
+    #                                           uncertainties=[0.01, 3, 0.1, 0.1, 0.3, 0.1, 0.2, 0.15, 0.2, 0.1],
+    #                                           random_state=None)
+    #
+    # pca = apply_animation(y, Y, V, W, cov_Y, n_features, experiment_folder + 'animation')
+    # make_plots(y, Y, V, W, cov_Y, n_features, pca, experiment_folder, show_plots=False)
+    # print('start high var along last PC')
 
-    #define experiment folder
-    experiment_folder = OUTPUT_FOLDER + 'high_var_lastPC/'
-    #experiment_folder = OUTPUT_FOLDER + 'test' + '/'
-    os.makedirs(experiment_folder, exist_ok=True)   # overwrite if exists
+    # ######################################################
+    # #            error equal per class                   #
+    # ######################################################
+    # print('start high var outgroup')
+    #
+    # #define experiment folder
+    # experiment_folder = OUTPUT_FOLDER + 'outgroup_high_var/'
+    # #experiment_folder = OUTPUT_FOLDER + 'test' + '/'
+    # os.makedirs(experiment_folder, exist_ok=True)   # overwrite if exists
+    #
+    # X, y, Y, V, W, cov_Y = sample_input_blobs(
+    #     n_classes=sample,
+    #     n_samples=50,
+    #     n_features=n_features,
+    #     cluster_std=0, uncertainty_type='equal_per_class',
+    #     uncertainties=[3, 0.1, 0.1, 0.1, 0.1],
+    #     random_state=None)
+    #
+    # pca = apply_animation(y, Y, V, W, cov_Y, n_features, experiment_folder + 'animation')
+    # make_plots(y, Y, V, W, cov_Y, n_features, pca, experiment_folder, show_plots=False)
+    # print('end high var outgroup')
+    # print('start high var ingroup')
+    #
+    # #define experiment folder
+    # experiment_folder = OUTPUT_FOLDER + 'ingroup_high_var/'
+    # #experiment_folder = OUTPUT_FOLDER + 'test' + '/'
+    # os.makedirs(experiment_folder, exist_ok=True)   # overwrite if exists
+    #
+    # X, y, Y, V, W, cov_Y = sample_input_blobs(
+    #     n_classes=sample,
+    #     n_samples=50,
+    #     n_features=n_features,
+    #     cluster_std=0, uncertainty_type='equal_per_class',
+    #     uncertainties=[0.1, 0.1, 0.1, 3, 0.1],
+    #     random_state=None)
+    #
+    # pca = apply_animation(y, Y, V, W, cov_Y, n_features, experiment_folder + 'animation')
+    # make_plots(y, Y, V, W, cov_Y, n_features, pca, experiment_folder, show_plots=False)
+    # print('end high var ingroup')
 
-    X, y, Y, V, W, cov_Y = sample_input_blobs(#n_classes=5,
-                                              n_classes=sample,
-                                              n_samples=70,
-                                              n_features=n_features,
-                                              cluster_std=0, uncertainty_type='equal_per_dimension',
-                                              uncertainties=[0.01, 3, 0.1, 0.1, 0.3, 0.1, 0.2, 0.15, 0.2, 0.1],
-                                              random_state=None)
-
-    pca = apply_animation(y, Y, V, W, cov_Y, n_features, experiment_folder + 'animation')
-    make_plots(y, Y, V, W, cov_Y, n_features, pca, experiment_folder, show_plots=False)
-    print('start high var along last PC')
-
-    ######################################################
-    #            error equal per class                   #
-    ######################################################
-    print('start high var outgroup')
-
-    #define experiment folder
-    experiment_folder = OUTPUT_FOLDER + 'outgroup_high_var/'
-    #experiment_folder = OUTPUT_FOLDER + 'test' + '/'
-    os.makedirs(experiment_folder, exist_ok=True)   # overwrite if exists
-
-    X, y, Y, V, W, cov_Y = sample_input_blobs(
-        n_classes=sample,
-        n_samples=50,
-        n_features=n_features,
-        cluster_std=0, uncertainty_type='equal_per_class',
-        uncertainties=[3, 0.1, 0.1, 0.1, 0.1],
-        random_state=None)
-
-    pca = apply_animation(y, Y, V, W, cov_Y, n_features, experiment_folder + 'animation')
-    make_plots(y, Y, V, W, cov_Y, n_features, pca, experiment_folder, show_plots=False)
-    print('end high var outgroup')
-    print('start high var ingroup')
-
-    #define experiment folder
-    experiment_folder = OUTPUT_FOLDER + 'ingroup_high_var/'
-    #experiment_folder = OUTPUT_FOLDER + 'test' + '/'
-    os.makedirs(experiment_folder, exist_ok=True)   # overwrite if exists
-
-    X, y, Y, V, W, cov_Y = sample_input_blobs(
-        n_classes=sample,
-        n_samples=50,
-        n_features=n_features,
-        cluster_std=0, uncertainty_type='equal_per_class',
-        uncertainties=[0.1, 0.1, 0.1, 3, 0.1],
-        random_state=None)
-
-    pca = apply_animation(y, Y, V, W, cov_Y, n_features, experiment_folder + 'animation')
-    make_plots(y, Y, V, W, cov_Y, n_features, pca, experiment_folder, show_plots=False)
-    print('end high var ingroup')
-
-    ################################################################################################
-    print('start gaussian')
-
-    n_features = 10
-    #define experiment folder
-    experiment_folder = OUTPUT_FOLDER + 'test_influence/'
-    #experiment_folder = OUTPUT_FOLDER + 'test' + '/'
-    os.makedirs(experiment_folder, exist_ok=True)   # overwrite if exists
-
-    X, y, Y, V, W, cov_Y = sample_input_blobs(
-        n_classes=np.array([[1, 2, 1, 4, 1, 5, 1, 8, 1, 2]]),
-        n_samples=50,
-        n_features=n_features,
-        cluster_std=0, uncertainty_type='equal_per_class',
-        uncertainties=[3],
-        random_state=None)
-
-    pca = apply_animation(y, Y, V, W, cov_Y, n_features, experiment_folder + 'animation')
-    make_plots(y, Y, V, W, cov_Y, n_features, pca, experiment_folder, show_plots=False)
-    print('end gaussian')
+    # ################################################################################################
+    # print('start gaussian')
+    #
+    # n_features = 10
+    # #define experiment folder
+    # experiment_folder = OUTPUT_FOLDER + 'test_influence/'
+    # #experiment_folder = OUTPUT_FOLDER + 'test' + '/'
+    # os.makedirs(experiment_folder, exist_ok=True)   # overwrite if exists
+    #
+    # X, y, Y, V, W, cov_Y = sample_input_blobs(
+    #     n_classes=np.array([[1, 2, 1, 4, 1, 5, 1, 8, 1, 2]]),
+    #     n_samples=50,
+    #     n_features=n_features,
+    #     cluster_std=0, uncertainty_type='equal_per_class',
+    #     uncertainties=[3],
+    #     random_state=None)
+    #
+    # pca = apply_animation(y, Y, V, W, cov_Y, n_features, experiment_folder + 'animation')
+    # make_plots(y, Y, V, W, cov_Y, n_features, pca, experiment_folder, show_plots=False)
+    # print('end gaussian')
 
     # ########################################################################################
     #  #                         Outlier                                                     #
@@ -215,3 +215,50 @@ if __name__ == '__main__':
     # pca = apply_animation(y, Y, V, W, cov_Y, n_features, experiment_folder + 'animation')
     # make_plots(y, Y, V, W, cov_Y, n_features, pca, experiment_folder, show_plots=False)
     # print('end outlier')
+
+
+    # #define experiment folder
+    # experiment_folder = OUTPUT_FOLDER + 'outlier_class/'
+    # #experiment_folder = OUTPUT_FOLDER + 'test' + '/'
+    # os.makedirs(experiment_folder, exist_ok=True)   # overwrite if exists
+    #
+    # # sample = np.array([[1, 0.1, -2, 1, 2, 2, 3, 0, 2, 8], [-1, -0.2, 2, -2, -2, 1, 2, 0, 1, 1], [1, 0, 1, 2, 1, -1, 3, 0.5, -1, -1], [-1, 0.01, -1, -1, -1, -4, 0, 0.5, -1, -1], [0, 0, 2, 0, 2, 3, -2, 0, 0, 0]])
+    # sample = np.array([[1, 0.1, -2, 1, 5, 2, 3, 0, 2, 1], [1, 0.1, -2, 1, 0, 2, 1, 0, 2, 3], [-1, -0.2, 2, -2, 5, 1, 2, 0, 1, 5]])
+    #
+    # n_features = 10
+    # X, y, Y, V, W, cov_Y = sample_input_blobs(#n_classes=2,
+    #                                           n_classes=sample,
+    #                                           n_samples=[15, 15, 15],
+    #                                           n_features=n_features,
+    #                                           cluster_std=0, uncertainty_type='equal_per_class',
+    #                                             uncertainties=[2, 2, 2],
+    #                                           random_state=None)
+    #
+    #
+    # print(Y.shape)
+    # print(cov_Y.shape)
+    # pca = apply_animation(y, Y, V, W, cov_Y, n_features, experiment_folder + 'animation')
+    # make_plots(y, Y, V, W, cov_Y, n_features, pca, experiment_folder, show_plots=False)
+
+    # #define experiment folder
+    # experiment_folder = OUTPUT_FOLDER + 'outlier_dim/'
+    # #experiment_folder = OUTPUT_FOLDER + 'test' + '/'
+    # os.makedirs(experiment_folder, exist_ok=True)   # overwrite if exists
+    #
+    # # sample = np.array([[1, 0.1, -2, 1, 2, 2, 3, 0, 2, 8], [-1, -0.2, 2, -2, -2, 1, 2, 0, 1, 1], [1, 0, 1, 2, 1, -1, 3, 0.5, -1, -1], [-1, 0.01, -1, -1, -1, -4, 0, 0.5, -1, -1], [0, 0, 2, 0, 2, 3, -2, 0, 0, 0]])
+    # sample = np.array([[1, 0.1, -2, 1, 5, 2, 3, 0, 2, 1], [1, 0.1, -2, 1, 0, 2, 3, 0, 2, 3], [1, 0.1, -2, 1, 5, 2, 3, 0, 2, 5]])
+    #
+    # n_features = 10
+    # X, y, Y, V, W, cov_Y = sample_input_blobs(#n_classes=2,
+    #                                           n_classes=sample,
+    #                                           n_samples=[15, 15, 15],
+    #                                           n_features=n_features,
+    #                                           cluster_std=0, uncertainty_type='equal_per_dimension',
+    #                                           uncertainties=[1, 1, 1, 1, 3, 1, 1, 1, 1, 3],
+    #                                           random_state=None)
+    #
+    #
+    # print(Y.shape)
+    # print(cov_Y.shape)
+    # pca = apply_animation(y, Y, V, W, cov_Y, n_features, experiment_folder + 'animation')
+    # make_plots(y, Y, V, W, cov_Y, n_features, pca, experiment_folder, show_plots=False)

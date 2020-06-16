@@ -103,7 +103,7 @@ def wisconsin_data_set():
     y = d['label']
     y = [1 if i=='M' else 0 for i in y]
     Y = d.iloc[:, 1:11].to_numpy()
-    cov_Y = np.diag(d.iloc[:, 11:21].to_numpy().transpose().flatten()**2)
+    #cov_Y = np.diag(d.iloc[:, 11:21].to_numpy().transpose().flatten()**2)
     fake_W = np.identity(np.shape(Y)[1])
     fake_V = np.identity(np.shape(Y)[0])
     return y, Y, fake_V, fake_W, cov_Y, OUTPUT_FOLDER

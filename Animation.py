@@ -304,7 +304,7 @@ class Animation:
                     y_title='PC2')
         #fig1.update_layout(fig.layout)
         for i in range(1, 11):
-            fig1.add_trace(fig.frames[i].data[0], row=1, col=i)
+            fig1.add_trace(fig.frames[i-1].data[0], row=1, col=i)
             for k in range(self.pca.size[0]):
                 fig1.add_trace(
                     go.Scatter(x=self.animation_data[self.animation_data['sample'] == k]['PC 0'],
