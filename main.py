@@ -65,12 +65,15 @@ def apply_animation(y, Y, V, W, cov_Y, n_features, outfile):
 if __name__ == '__main__':
     os.environ["PATH"] += os.pathsep + '/Library/TeX/texbin'    # add latex to path
 
-    # ######################################################
-    # #            Wisconsin Dataset                       #
-    # ######################################################
-    #
-    # y, Y, fake_V, fake_W, cov_Y, OUTPUT_FOLDER = wisconsin_data_set()
-    # n_features = np.shape(Y)[1]
+    ######################################################
+    #            Wisconsin Dataset                       #
+    ######################################################
+
+    y, Y, V, W, cov_Y, OUTPUT_FOLDER = wisconsin_data_set()
+    n_features = np.shape(Y)[1]
+    experiment_folder = OUTPUT_FOLDER + 'wisconsin/'
+    pca = apply_animation(y, Y, V, W, cov_Y, n_features, experiment_folder + 'animation')
+    make_plots(y, Y, V, W, cov_Y, n_features, pca, experiment_folder, show_plots=False)
     # #pca = apply_animation(y, Y, fake_V, fake_W, cov_Y, n_features, OUTPUT_FOLDER + 'Wisonsin')
     # pca = PCA(matrix=Y, cov_data=cov_Y, n_components=n_features, axis=0, compute_jacobian=False)
     # pca.pca_grad()
