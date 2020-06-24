@@ -9,8 +9,15 @@ rcParams.update({'figure.autolayout': True})
 
 
 def make_plots(y, Y, V, W, cov_Y, n_features, pca, experiment_folder, show_plots=False):
+    numbers=18
     #sns.set(font_scale=2.5)
-    rc = {'axes.labelsize': 32, 'font.size': 32, 'legend.fontsize': 25, 'axes.titlesize': 32, 'xtick.labelsize': 32, 'ytick.labelsize': 32}
+    rc = {'axes.labelsize': 25, # Axenbeschriftung x, y und cbar
+         'font.size': numbers, # Legende zahlen
+         'legend.fontsize': 25, # Legend title
+         'xtick.labelsize': numbers, # x-achse zahlen
+         'ytick.labelsize': numbers} # y-achse und cbar zahlen
+
+    print(rcParams.keys())
     plt.rcParams.update(**rc)
     sns.set(rc=rc)
     labels = y
@@ -32,9 +39,9 @@ def make_plots(y, Y, V, W, cov_Y, n_features, pca, experiment_folder, show_plots
                     # Make the plot look better when many rows/cols
                     linewidths=0, xticklabels=False, yticklabels=False,
 
-                    cmap='Blues', cbar_kws={'label': 'samples noise covariance'},
+                    cmap='Blues', cbar_kws={'label': 'samples noise covariance', 'ticks':None},
 
-                    figsize=(10, 10))
+                    )
     for label in np.unique(labels):
         ax1.ax_col_dendrogram.bar(0, 0, color=lut[label],
                                 label=label, linewidth=0)
@@ -44,7 +51,7 @@ def make_plots(y, Y, V, W, cov_Y, n_features, pca, experiment_folder, show_plots
     ax1.ax_heatmap.set_position([0.05, 0.05, 0.8, 0.8])
     ax1.ax_col_colors.set_position([0.05, 0.85, 0.8, 0.02])
     ax1.ax_row_colors.set_position([0.03, 0.05, 0.02, 0.8])
-    ax1.ax_col_dendrogram.legend(title='Class labels', loc='center', bbox_to_anchor=(0.29, 0.8), ncol=5)
+    ax1.ax_col_dendrogram.legend(title='Class labels', loc='center', bbox_to_anchor=(0.29, 0.8), ncol=5, fontsize=numbers)
     #ax1.fig.suptitle('Sample Covariance Matrix')
     plt.tight_layout()
 
@@ -73,7 +80,7 @@ def make_plots(y, Y, V, W, cov_Y, n_features, pca, experiment_folder, show_plots
 
                     cmap='Reds', cbar_kws={'label': 'euclidean distance'},
 
-                    figsize=(10, 10))
+                    )
     for label in np.unique(labels):
         ax2.ax_col_dendrogram.bar(0, 0, color=lut[label],
                                 label=label, linewidth=0)
@@ -83,7 +90,7 @@ def make_plots(y, Y, V, W, cov_Y, n_features, pca, experiment_folder, show_plots
     ax2.ax_heatmap.set_position([0.05, 0.05, 0.8, 0.8])
     ax2.ax_col_colors.set_position([0.05, 0.85, 0.8, 0.02])
     ax2.ax_row_colors.set_position([0.03, 0.05, 0.02, 0.8])
-    ax2.ax_col_dendrogram.legend(title='Class labels', loc='center', bbox_to_anchor=(0.29, 0.8), ncol=5)
+    ax2.ax_col_dendrogram.legend(title='Class labels', loc='center', bbox_to_anchor=(0.29, 0.8), ncol=5, fontsize=numbers)
     #plt.tight_layout()
 
     ax2.savefig(experiment_folder + 'euclidean_distance_matrix.pdf')
@@ -100,8 +107,7 @@ def make_plots(y, Y, V, W, cov_Y, n_features, pca, experiment_folder, show_plots
     f = plt.figure(figsize=(10, 10))
     ax3 = sns.heatmap(W, cmap='Greens',
                       xticklabels=[i for i in range(1, np.shape(W)[1]+1)],
-                      yticklabels=[i for i in range(1, np.shape(W)[0]+1)],
-                      cbar_kws={'label': 'variables noise variance'},
+                      yticklabels=[i for i in range(1, np.shape(W)[0]+1)], cbar_kws={'label': 'variables noise variance', "shrink": 0.5},
                       square=True)
     # ###########################   x0,   y0,   dx,   dy
     # ax1.ax_heatmap.set_position([0.15, 0.07, 0.8, 0.8])
@@ -114,7 +120,7 @@ def make_plots(y, Y, V, W, cov_Y, n_features, pca, experiment_folder, show_plots
     ax3.set(xlabel='Variables',
             ylabel='Variables', )
 
-    #plt.tight_layout()
+    plt.tight_layout()
 
     plt.savefig(experiment_folder + 'variables_noise_covariance_matrix.pdf')
     if show_plots:
@@ -140,7 +146,7 @@ def make_plots(y, Y, V, W, cov_Y, n_features, pca, experiment_folder, show_plots
                       cmap='RdBu',
                       xticklabels=[i for i in range(1, np.shape(corr)[1]+1)],
                       yticklabels=[i for i in range(1, np.shape(corr)[0]+1)],
-                      cbar_kws={'label': 'correlation coefficient'},
+                      cbar_kws={'label': 'correlation coefficient', "shrink": 0.5},
                       square=True)
     # ax1.ax_heatmap.set_position([0.15, 0.07, 0.8, 0.8])
     ax4.set(xlabel='PCs',
@@ -150,7 +156,7 @@ def make_plots(y, Y, V, W, cov_Y, n_features, pca, experiment_folder, show_plots
     ax4.yaxis.tick_left()
     ax4.xaxis.set_label_position('top')
 
-    #plt.tight_layout()
+    plt.tight_layout()
 
     plt.savefig(experiment_folder + 'correlation.pdf')
     if show_plots:

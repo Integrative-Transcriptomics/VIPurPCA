@@ -2,7 +2,7 @@
 import numpy as np
 from sklearn.datasets import make_blobs, make_circles
 import argparse
-import pandas
+import pandas as pd
 
 def equipotential_standard_normal(d, n):
     '''Draws n samples from standard normal multivariate gaussian distribution of dimension d which are equipotential
@@ -98,12 +98,39 @@ def wisconsin_data_set():
                        'concave points_mean', 'symmetry_mean', 'fractal dimension_mean', 'radius_se', 'texture_se', 'perimeter_se', 'area_se', 'smoothness_se', 'compactness_se', 'concavity_se',
                        'concave points_se', 'symmetry_se', 'fractal dimension_se', 'radius_worst', 'texture_worst', 'perimeter_worst', 'area_worst', 'smoothness_worst', 'compactness_worst', 'concavity_worst',
                        'concave points_worst', 'symmetry_worst', 'fractal dimension_worst']
-    d = pd.read_csv(input, sep=',', header=0, names=wisconsin_names, index_col=0)
+    d = pd.read_csv(input, sep=',', header=0, names=wisconsin_names)
 
+    print(len(d['ID']))
+    print(len(set(d['ID'])))
     y = d['label']
     y = [1 if i=='M' else 0 for i in y]
-    Y = d.iloc[:, 1:11].to_numpy()
-    cov_Y = np.diag(d.iloc[:, 11:21].to_numpy().transpose().flatten()**2)
-    fake_W = np.identity(np.shape(Y)[1])
-    fake_V = np.identity(np.shape(Y)[0])
-    return y, Y, fake_V, fake_W, cov_Y, OUTPUT_FOLDER
+    Y = d.iloc[:, 2:12].to_numpy()
+    #cov_Y = np.diag(d.iloc[:, 11:21].to_numpy().transpose().flatten()**2)
+    W = np.diag([0.05*np.mean(d.iloc[:, i]) for i in range(2, 12)])
+    # variables are not independent
+    V = np.identity(np.shape(Y)[0])    # samples are independent (different patients)
+    cov_Y = np.kron(W, V)
+    return y, Y, V, W, cov_Y, OUTPUT_FOLDER
+
+def streptomyces_data_set():
+    args = parse_args()
+    input = args.infile
+    OUTPUT_FOLDER = args.outputfolder
+
+    d = pd.read_csv(input, sep='\t', header=0, index_col=0)
+    timepoints = [21, 29, 33, 37, 41, 45, 49, 53, 57]
+    print(d.shape[0], int(d.shape[1] / 3))
+    means = np.zeros((d.shape[0], int(d.shape[1] / 3)))
+    vars = np.zeros((d.shape[0], int(d.shape[1] / 3)))
+    for i in range(9):
+        means[:, i] = np.mean([d.iloc[:, i].values, d.iloc[:, i + 9].values, d.iloc[:, i + 2 * 9].values], axis=0)
+        vars[:, i] = np.var([d.iloc[:, i].values, d.iloc[:, i + 9].values, d.iloc[:, i + 2 * 9].values], axis=0)
+    means=np.transpose(means)[:, 0:200]
+    W = np.identity(np.shape(means)[1])
+    V = np.diag(np.median(vars, axis=0))
+    cov_Y = np.kron(W, V)
+    y = [None]
+    print(means.shape)
+    print(W.shape)
+    print(V.shape)
+    return y, means, V, W, cov_Y, OUTPUT_FOLDER
