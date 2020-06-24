@@ -111,3 +111,26 @@ def wisconsin_data_set():
     V = np.identity(np.shape(Y)[0])    # samples are independent (different patients)
     cov_Y = np.kron(W, V)
     return y, Y, V, W, cov_Y, OUTPUT_FOLDER
+
+def streptomyces_data_set():
+    args = parse_args()
+    input = args.infile
+    OUTPUT_FOLDER = args.outputfolder
+
+    d = pd.read_csv(input, sep='\t', header=0, index_col=0)
+    timepoints = [21, 29, 33, 37, 41, 45, 49, 53, 57]
+    print(d.shape[0], int(d.shape[1] / 3))
+    means = np.zeros((d.shape[0], int(d.shape[1] / 3)))
+    vars = np.zeros((d.shape[0], int(d.shape[1] / 3)))
+    for i in range(9):
+        means[:, i] = np.mean([d.iloc[:, i].values, d.iloc[:, i + 9].values, d.iloc[:, i + 2 * 9].values], axis=0)
+        vars[:, i] = np.var([d.iloc[:, i].values, d.iloc[:, i + 9].values, d.iloc[:, i + 2 * 9].values], axis=0)
+    means=np.transpose(means)[:, 0:200]
+    W = np.identity(np.shape(means)[1])
+    V = np.diag(np.median(vars, axis=0))
+    cov_Y = np.kron(W, V)
+    y = [None]
+    print(means.shape)
+    print(W.shape)
+    print(V.shape)
+    return y, means, V, W, cov_Y, OUTPUT_FOLDER

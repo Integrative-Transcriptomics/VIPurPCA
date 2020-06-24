@@ -3,7 +3,7 @@
 import sys
 import os
 import argparse
-from generate_samples import equipotential_standard_normal, exp_map, sample_input_blobs, sample_input_circles, wisconsin_data_set
+from generate_samples import equipotential_standard_normal, exp_map, sample_input_blobs, sample_input_circles, wisconsin_data_set, streptomyces_data_set
 from PCA import PCA
 #from data_mnist import get_mnist_dataset
 from Animation import Animation
@@ -66,14 +66,22 @@ if __name__ == '__main__':
     os.environ["PATH"] += os.pathsep + '/Library/TeX/texbin'    # add latex to path
 
     ######################################################
+    #            Streptomyces Dataset                    #
+    ######################################################
+    y, Y, V, W, cov_Y, OUTPUT_FOLDER = streptomyces_data_set()
+    n_features = np.shape(Y)[1]
+    experiment_folder = OUTPUT_FOLDER + 'streptomyces/'
+    pca = apply_animation(y, Y, V, W, cov_Y, n_features, experiment_folder + 'animation')
+    make_plots(y, Y, V, W, cov_Y, n_features, pca, experiment_folder, show_plots=False)
+    ######################################################
     #            Wisconsin Dataset                       #
     ######################################################
 
-    y, Y, V, W, cov_Y, OUTPUT_FOLDER = wisconsin_data_set()
-    n_features = np.shape(Y)[1]
-    experiment_folder = OUTPUT_FOLDER + 'wisconsin/'
-    pca = apply_animation(y, Y, V, W, cov_Y, n_features, experiment_folder + 'animation')
-    make_plots(y, Y, V, W, cov_Y, n_features, pca, experiment_folder, show_plots=False)
+    # y, Y, V, W, cov_Y, OUTPUT_FOLDER = wisconsin_data_set()
+    # n_features = np.shape(Y)[1]
+    # experiment_folder = OUTPUT_FOLDER + 'wisconsin/'
+    # pca = apply_animation(y, Y, V, W, cov_Y, n_features, experiment_folder + 'animation')
+    # make_plots(y, Y, V, W, cov_Y, n_features, pca, experiment_folder, show_plots=False)
     # #pca = apply_animation(y, Y, fake_V, fake_W, cov_Y, n_features, OUTPUT_FOLDER + 'Wisonsin')
     # pca = PCA(matrix=Y, cov_data=cov_Y, n_components=n_features, axis=0, compute_jacobian=False)
     # pca.pca_grad()
