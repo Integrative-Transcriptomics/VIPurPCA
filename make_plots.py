@@ -17,7 +17,7 @@ def make_plots(y, Y, V, W, cov_Y, n_features, pca, experiment_folder, show_plots
          'xtick.labelsize': numbers, # x-achse zahlen
          'ytick.labelsize': numbers} # y-achse und cbar zahlen
 
-    print(rcParams.keys())
+    #print(rcParams.keys())
     plt.rcParams.update(**rc)
     sns.set(rc=rc)
     labels = y

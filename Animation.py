@@ -1,6 +1,7 @@
 #!/usr/bin/python
 from PCA import PCA
 import jax.numpy as np
+import scipy
 #import numpy as np
 import pandas as pd
 from generate_samples import equipotential_standard_normal, exp_map
@@ -12,6 +13,7 @@ from plotly.offline import plot
 # def gs(X):
 #     Q, R = scipy.linalg.qr(X, pivoting=False)
 #     return Q
+import tracemalloc
 
 
 
@@ -36,10 +38,13 @@ class Animation:
             columns=(['frame', 'uncertainty', 'influence', 'sample'] + ['PC ' + str(i) for i in range(self.pca.n_components)]))
 
     def compute_frames(self):
-        L = np.linalg.cholesky(self.pca.cov_eigenvectors + 1e-6 * np.eye(len(self.pca.cov_eigenvectors)))
-        #print('L', L)
+        print(self.pca.cov_eigenvectors.shape)
+        print(self.pca.cov_eigenvectors)
+        L = scipy.linalg.cholesky(self.pca.cov_eigenvectors + 1e-6 * np.eye(len(self.pca.cov_eigenvectors)))
+        print('L', L.shape)
         vec_mean_eigenvectors = self.pca.eigenvectors[:, 0:self.pca.n_components].flatten('F')
         s = equipotential_standard_normal(self.pca.size[1] * self.pca.n_components, self.n_frames)  # draw samples from equipotential manifold
+        print('shape s', s.shape)
         if self.type == 'equal_per_cluster':
             uncertainty = np.expand_dims(np.diag(self.cov_samples), axis=1)
         else:
@@ -48,13 +53,9 @@ class Animation:
         influence = np.expand_dims(np.sum(np.abs(np.transpose(np.reshape(np.sum(np.abs(self.pca.jacobian), axis=0), (self.pca.size[1], self.pca.size[0])))), axis=1), axis=1)
         sample = np.expand_dims(np.array([i for i in range(self.pca.size[0])]), axis=1)
 
-        for i in range(self.n_frames):  # one sample per frame
-        #     print('frame', i, 'done')
-        #     print('np.shape(vec_mean_eigenvectors)', np.shape(vec_mean_eigenvectors))
-        #     print('np.dot(np.transpose(L)', np.shape(np.transpose(L)))
-        #     print(' s[:, i]', np.shape(s[:, i]))
+        for i in range(self.n_frames-1):  # one sample per frame
             U = np.transpose(np.reshape(np.expand_dims(vec_mean_eigenvectors + np.dot(L, s[:, i]), axis=1),
-                           [self.pca.size[1], self.pca.n_components]))
+                           [self.pca.n_components, self.pca.size[1]]))
             U = normalize(U, axis=0)
             U = gs(U)
 
@@ -69,8 +70,179 @@ class Animation:
             self.animation_data = self.animation_data.append(T, ignore_index=True)
 
 
+    def animate(self, outfile):
+        print('labels', self.labels)
+        # define colors for animation
+        import numpy as np
+        col = sns.hls_palette(np.size(np.unique(self.labels)))
+        print(col)
+        col_255 = []
+        for i in col:
+            to_255 = ()
+            for j in i:
+                to_255 = to_255 + (int(j*255),)
+            col_255.append(to_255)
+        col = ['rgb'+str(i) for i in col_255]
+        print(col)
+        col_map = dict(zip(np.unique(self.labels), col))
+        print(col_map)
+        c = [col_map[i] for i in list(self.labels)]
+        import jax.numpy as np
+        explained_var_pc1 = (self.pca.eigenvalues[0]/np.sum(self.pca.eigenvalues))
+        explained_var_pc2 = (self.pca.eigenvalues[1]/np.sum(self.pca.eigenvalues))
 
-    # def animate(self, outfile):
+        ############################################################################
+        # basis figure for animation
+        ############################################################################
+
+        fig = go.Figure(
+                data=[go.Scatter(x=self.animation_data[self.animation_data['frame'] == 0]['PC 0'],
+                                 y=self.animation_data[self.animation_data['frame'] == 0]['PC 1'],
+                                 mode="markers",
+                                 marker=dict(color=c,
+                                             ),
+                                 #text=self.labels
+                                 )],
+
+                layout=go.Layout(
+                    template="simple_white",
+                    showlegend=False,
+                    #title="Visualizing uncertainty in PCA",
+                    xaxis_title=f'PC 1 ({explained_var_pc1:.2f})',
+                    yaxis_title=f'PC 2 ({explained_var_pc2:.2f})',
+                    hovermode="closest",
+                    margin=dict(
+                        l=0,
+                        r=0,
+                        b=0,
+                        t=0,
+                        pad=0
+                    ),
+                    #yaxis=dict(scaleanchor="x", scaleratio=1)
+                    #plot_bgcolor='rgba(159,154,167,0.8)'
+                ),
+                frames=[go.Frame(
+                    data=[go.Scatter(
+                        x=self.animation_data[self.animation_data['frame'] == k]['PC 0'],
+                        y=self.animation_data[self.animation_data['frame'] == k]['PC 1'],
+                        mode="markers",
+                        marker=dict(color=c),
+                        #text=self.labels
+                    )]
+                ) for k in range(self.n_frames)
+                ]
+            )
+
+        for k in range(self.pca.size[0]):
+            fig.add_trace(
+                go.Scatter(x=self.animation_data[self.animation_data['sample'] == k]['PC 0'],
+                            y=self.animation_data[self.animation_data['sample'] == k]['PC 1'],
+                            type='scatter', mode='lines', line=dict(  # color='firebrick',
+                        width=0.1,
+                        shape='spline'))
+            )
+
+        ###################################################
+        # frames
+        ###################################################
+
+        from plotly.subplots import make_subplots
+        fig1 = make_subplots(rows=1, cols=10, shared_yaxes=True, column_titles=['f='+str(i+1) for i in range(11)], x_title='PC1',
+                    y_title='PC2')
+        #fig1.update_layout(fig.layout)
+        for i in range(1, 11):
+            fig1.add_trace(fig.frames[i-1].data[0], row=1, col=i)
+            for k in range(self.pca.size[0]):
+                fig1.add_trace(
+                    go.Scatter(x=self.animation_data[self.animation_data['sample'] == k]['PC 0'],
+                               y=self.animation_data[self.animation_data['sample'] == k]['PC 1'],
+                               type='scatter', mode='lines', line=dict(color='grey', width=0.1, shape='spline'),
+                               ), row=1, col=i
+
+                )
+        fig1.update_layout(
+            template="simple_white",
+            showlegend=False,
+            # title="Visualizing uncertainty in PCA",
+            hovermode="closest",
+            margin=dict(
+                l=60,
+                r=0,
+                b=60,
+                t=30,
+                pad=0
+            ),
+            xaxis=dict(mirror=True,
+                       ticks='outside',
+                       showline=True),
+            yaxis=dict(mirror=True,
+                       ticks='outside',
+                       showline=True),
+            font=dict(size=18)
+        )
+
+
+
+        for i in range(2, 11):
+            fig1['layout']['xaxis'+str(i)].update(mirror=True,
+                                                 ticks='outside',
+                                                 showline=True)
+            fig1['layout']['yaxis' + str(i)].update(mirror=True,
+                                                   ticks='outside',
+                                                   showline=True)
+        for i in fig1['layout']['annotations']:
+            i['font']['size'] = 18
+
+        #axes = [fig1.layout[e] for e in fig1.layout if e[1:5] == 'axis']
+        #print(axes)
+        fig1.write_image(outfile+'_frames.pdf', width=2500, height=400, scale=1)
+
+        fig.write_image(outfile+'.pdf',
+                        #width=(width_inches - marginInches)*ppi,
+                        #height=(height_inches - marginInches)*ppi,
+                        #scale=1
+                        )
+
+
+        ############################################################
+        # animation
+        ###########################################################
+
+
+        fig.update_layout(
+            xaxis=dict(
+                constrain="domain",  # meanwhile compresses the xaxis by decreasing its "domain"
+            ),
+           # yaxis=dict(
+           #     scaleanchor="x",
+           #     scaleratio=1,
+           # ),
+            margin=dict(
+                l=0,
+                r=0,
+                b=0,
+                t=0,
+                pad=4
+            ),
+            updatemenus=[dict(type="buttons",
+                              buttons=[dict(label="Play",
+                                            method="animate",
+                                            args=[None, {"frame": {"duration": 100, "redraw": False},
+                                                         "fromcurrent": True, "transition": {"duration": 3,
+                                                                                             "easing": "quadratic-in-out"}}]),
+                                       dict(label='Show traces',
+                                            method='update',
+                                            args=[{'visible': [True for i in range(self.pca.size[0] + 1)]}]),
+
+                                       dict(label='Hide traces',
+                                            method='update',
+                                            args=[{'visible': [True] + [False for i in range(self.pca.size[0])]}])])]
+        )
+
+        fig.write_html(outfile+'.html')
+
+        #fig.show()
+# def animate(self, outfile):
     #
     #     fig = {
     #             'data': [{
@@ -218,178 +390,6 @@ class Animation:
     #                   )
     #
     #     fig.show()
-
-    def animate(self, outfile):
-        # define colors for animation
-        import numpy as np
-        col = sns.hls_palette(np.size(np.unique(self.labels)))
-        col_255 = []
-        for i in col:
-            to_255 = ()
-            for j in i:
-                to_255 = to_255 + (int(j*255),)
-            col_255.append(to_255)
-        col = ['rgb'+str(i) for i in col_255]
-        c = [col[i] for i in list(self.labels)]
-        import jax.numpy as np
-        explained_var_pc1 = (self.pca.eigenvalues[0]/np.sum(self.pca.eigenvalues))
-        explained_var_pc2 = (self.pca.eigenvalues[1]/np.sum(self.pca.eigenvalues))
-        fig = go.Figure(
-                # data=[go.Scatter(x=self.animation_data[self.animation_data['frame'] == 0]['PC 0'], y=self.animation_data[self.animation_data['frame'] == 0]['PC 1'], name='Influence',
-                #                  mode="markers", marker=dict(color=self.animation_data['uncertainty'], colorbar=dict(title='Variance'), colorscale='Blues', size=self.animation_data['influence'], sizemode='area',
-                #                                              sizeref=4.*max(self.animation_data['influence'])/(40.**2), sizemin=1, line=dict(width=1,
-                #                         color='DarkSlateGrey'), symbol=self.labels)
-                #                  )],
-                data=[go.Scatter(x=self.animation_data[self.animation_data['frame'] == 0]['PC 0'],
-                                 y=self.animation_data[self.animation_data['frame'] == 0]['PC 1'],
-                                 mode="markers",
-                                 marker=dict(color=c,
-
-                                             )
-                                 )],
-
-                layout=go.Layout(
-                    template="simple_white",
-                    showlegend=False,
-                    #title="Visualizing uncertainty in PCA",
-                    xaxis_title=f'PC 1 ({explained_var_pc1:.2f})',
-                    yaxis_title=f'PC 2 ({explained_var_pc2:.2f})',
-                    hovermode="closest",
-                    margin=dict(
-                        l=0,
-                        r=0,
-                        b=0,
-                        t=0,
-                        pad=0
-                    ),
-                    #yaxis=dict(scaleanchor="x", scaleratio=1)
-                    #plot_bgcolor='rgba(159,154,167,0.8)'
-                ),
-                frames=[go.Frame(
-                    # data=[go.Scatter(
-                    #     x=self.animation_data[self.animation_data['frame'] == k]['PC 0'],
-                    #     y=self.animation_data[self.animation_data['frame'] == k]['PC 1'],
-                    #     mode="markers",
-                    #     marker=dict(color=self.animation_data['uncertainty'], colorbar=dict(title=''), colorscale='Blues',
-                    #                 size=self.animation_data['influence'], sizemode='area',
-                    #                 sizeref=3. * max(self.animation_data['influence']) / (40. ** 2), sizemin=1, symbol=self.labels),
-                    # )]
-                    data=[go.Scatter(
-                        x=self.animation_data[self.animation_data['frame'] == k]['PC 0'],
-                        y=self.animation_data[self.animation_data['frame'] == k]['PC 1'],
-                        mode="markers",
-                        marker=dict(color=c)
-                    )]
-                ) for k in range(self.n_frames)
-                ]
-            )
-
-        for k in range(self.pca.size[0]):
-            fig.add_trace(
-                go.Scatter(x=self.animation_data[self.animation_data['sample'] == k]['PC 0'],
-                            y=self.animation_data[self.animation_data['sample'] == k]['PC 1'],
-                            type='scatter', mode='lines', line=dict(  # color='firebrick',
-                        width=0.1,
-                        shape='spline'))
-            )
-
-        # Constants factors
-        marginInches = 0
-        ppi = 96
-        width_inches = 11.87*0.394
-        height_inches = 5.9*0.394
-
-        from plotly.subplots import make_subplots
-        fig1 = make_subplots(rows=1, cols=10, shared_yaxes=True, column_titles=['f='+str(i+1) for i in range(11)], x_title='PC1',
-                    y_title='PC2')
-        #fig1.update_layout(fig.layout)
-        for i in range(1, 11):
-            fig1.add_trace(fig.frames[i-1].data[0], row=1, col=i)
-            for k in range(self.pca.size[0]):
-                fig1.add_trace(
-                    go.Scatter(x=self.animation_data[self.animation_data['sample'] == k]['PC 0'],
-                               y=self.animation_data[self.animation_data['sample'] == k]['PC 1'],
-                               type='scatter', mode='lines', line=dict(color='grey', width=0.1, shape='spline'),
-                               ), row=1, col=i
-
-                )
-        fig1.update_layout(
-            template="simple_white",
-            showlegend=False,
-            # title="Visualizing uncertainty in PCA",
-            hovermode="closest",
-            margin=dict(
-                l=60,
-                r=0,
-                b=60,
-                t=30,
-                pad=0
-            ),
-            xaxis=dict(mirror=True,
-                       ticks='outside',
-                       showline=True),
-            yaxis=dict(mirror=True,
-                       ticks='outside',
-                       showline=True),
-            font=dict(size=18)
-        )
-
-
-
-        for i in range(2, 11):
-            fig1['layout']['xaxis'+str(i)].update(mirror=True,
-                                                 ticks='outside',
-                                                 showline=True)
-            fig1['layout']['yaxis' + str(i)].update(mirror=True,
-                                                   ticks='outside',
-                                                   showline=True)
-        for i in fig1['layout']['annotations']:
-            i['font']['size'] = 18
-
-        #axes = [fig1.layout[e] for e in fig1.layout if e[1:5] == 'axis']
-        #print(axes)
-        fig1.write_image(outfile+'_frames.pdf', width=2500, height=400, scale=1)
-
-        fig.write_image(outfile+'.pdf',
-                        #width=(width_inches - marginInches)*ppi,
-                        #height=(height_inches - marginInches)*ppi,
-                        #scale=1
-                        )
-
-        fig.update_layout(
-            xaxis=dict(
-                constrain="domain",  # meanwhile compresses the xaxis by decreasing its "domain"
-            ),
-           # yaxis=dict(
-           #     scaleanchor="x",
-           #     scaleratio=1,
-           # ),
-            margin=dict(
-                l=0,
-                r=0,
-                b=0,
-                t=0,
-                pad=4
-            ),
-            updatemenus=[dict(type="buttons",
-                              buttons=[dict(label="Play",
-                                            method="animate",
-                                            args=[None, {"frame": {"duration": 100, "redraw": False},
-                                                         "fromcurrent": True, "transition": {"duration": 3,
-                                                                                             "easing": "quadratic-in-out"}}]),
-                                       dict(label='Show traces',
-                                            method='update',
-                                            args=[{'visible': [True for i in range(self.pca.size[0] + 1)]}]),
-
-                                       dict(label='Hide traces',
-                                            method='update',
-                                            args=[{'visible': [True] + [False for i in range(self.pca.size[0])]}])])]
-        )
-
-        fig.write_html(outfile+'.html')
-
-        #fig.show()
-
 # if __name__ == '__main__':
 #     # generate data
 #     p = 5

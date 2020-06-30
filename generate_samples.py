@@ -4,6 +4,7 @@ from sklearn.datasets import make_blobs, make_circles
 import argparse
 import pandas as pd
 
+
 def equipotential_standard_normal(d, n):
     '''Draws n samples from standard normal multivariate gaussian distribution of dimension d which are equipotential
     and are lying on a grand circle (unit d-sphere) on a n-1 manifold which was randomly chosen.
@@ -17,7 +18,7 @@ def equipotential_standard_normal(d, n):
     t = np.random.standard_normal((d, 1))  # draw tangent sample
     t = t - (np.dot(np.transpose(t), x) * x)  # Gram Schmidth orthogonalization --> determines which circle is traversed
     t = t / (np.sqrt(np.sum(t ** 2)))  # standardize ||t|| = 1
-    s = np.linspace(0, 2 * np.pi, n + 1)  # space to span --> once around the circle in n steps
+    s = np.linspace(0, 2 * np.pi, n)  # space to span --> once around the circle in n steps
     s = s[0:(len(s) - 1)]
     t = s * t #if you wrap this samples around the circle you get once around the circle
     X = r * exp_map(x, t)  # project onto sphere, re-scale
@@ -100,24 +101,26 @@ def wisconsin_data_set():
                        'concave points_worst', 'symmetry_worst', 'fractal dimension_worst']
     d = pd.read_csv(input, sep=',', header=0, names=wisconsin_names)
 
-    print(len(d['ID']))
-    print(len(set(d['ID'])))
     y = d['label']
     y = [1 if i=='M' else 0 for i in y]
     Y = d.iloc[:, 2:12].to_numpy()
     #cov_Y = np.diag(d.iloc[:, 11:21].to_numpy().transpose().flatten()**2)
-    W = np.diag([0.05*np.mean(d.iloc[:, i]) for i in range(2, 12)])
+    # W = np.diag([0.05*np.mean(d.iloc[:, i]) for i in range(2, 12)])
     # variables are not independent
+    W = np.diag(np.median(d.iloc[:, 12:22], axis=0))
     V = np.identity(np.shape(Y)[0])    # samples are independent (different patients)
+    print(W.shape)
+    print(V.shape)
     cov_Y = np.kron(W, V)
     return y, Y, V, W, cov_Y, OUTPUT_FOLDER
 
+#@profile
 def streptomyces_data_set():
     args = parse_args()
     input = args.infile
     OUTPUT_FOLDER = args.outputfolder
 
-    d = pd.read_csv(input, sep='\t', header=0, index_col=0)
+    d = pd.read_csv(input, sep=';', header=0, index_col=0)
     timepoints = [21, 29, 33, 37, 41, 45, 49, 53, 57]
     print(d.shape[0], int(d.shape[1] / 3))
     means = np.zeros((d.shape[0], int(d.shape[1] / 3)))
@@ -125,12 +128,18 @@ def streptomyces_data_set():
     for i in range(9):
         means[:, i] = np.mean([d.iloc[:, i].values, d.iloc[:, i + 9].values, d.iloc[:, i + 2 * 9].values], axis=0)
         vars[:, i] = np.var([d.iloc[:, i].values, d.iloc[:, i + 9].values, d.iloc[:, i + 2 * 9].values], axis=0)
-    means=np.transpose(means)[:, 0:200]
-    W = np.identity(np.shape(means)[1])
-    V = np.diag(np.median(vars, axis=0))
+    # genes variables
+    # means=np.transpose(means)[:, 0:800]
+    # W = np.identity(np.shape(means)[1])
+    # V = np.diag(np.median(vars, axis=0))
+    # samples variables
+    means = d.values[0:1000, :]
+    V = np.identity(np.shape(means)[0])
+    W = np.diag(np.tile(np.median(vars, axis=0), 3))
     cov_Y = np.kron(W, V)
-    y = [None]
+    y = np.tile([str(i) for i in timepoints], 3)
     print(means.shape)
     print(W.shape)
     print(V.shape)
+    print(cov_Y.shape)
     return y, means, V, W, cov_Y, OUTPUT_FOLDER

@@ -14,6 +14,8 @@ import plotly.express as px
 from make_plots import make_plots
 import pandas as pd
 from matplotlib import rc
+import tracemalloc
+from memory_profiler import profile
 
 #plt.rc('text', usetex=True)
 plt.rc('font', family='serif')
@@ -33,28 +35,31 @@ for i in temp:
 #darkmint_r_for_matplotlib = px.colors.make_colorscale(darkmint_r_for_matplotlib)
 #new_cmap = matplotlib.colors.ListedColormap(darkmint_r_for_matplotlib, name='darkmint_r', N=None)
 new_cmap = matplotlib.colors.LinearSegmentedColormap.from_list('darkmint_r', darkmint_r_for_matplotlib, N=256, gamma=1.0)
-OUTPUT_FOLDER = '/share/home/zabel/projects/jax/results/'
+#OUTPUT_FOLDER = '../results/only_first_PCs'
 
+#@profile
 def apply_animation(y, Y, V, W, cov_Y, n_features, outfile):
     pca = PCA(matrix=Y, cov_data=cov_Y, n_components=n_features, axis=0, compute_jacobian=True)
     print('shape data', np.shape(Y))
     print('shape cov_data', np.shape(pca.cov_data))
     print(type(pca.cov_data))
-    print('Y', Y)
-    print('cov Y', np.cov(np.transpose(Y-np.mean(Y))))
-    print('mean_Y', np.mean(Y, axis=0))
     pca.pca_grad()
     print('shape jacobian', np.shape(pca.jacobian))
-    print(type(pca.jacobian))
+    #print(type(pca.jacobian))
     print('shape eigenvectors', np.shape(pca.eigenvectors))
-    print('eigenvectors', pca.eigenvectors)
+    # print('eigenvalues', pca.eigenvalues)
+    # print('eigenvectors', pca.eigenvectors)
+    # print('min jacobian', np.min(pca.jacobian))
+    # print('max jacobian', np.max(pca.jacobian))
+    # print(pca.jacobian)
+    #print('eigenvectors', pca.eigenvectors)
     #print('sklearn eigenvectors', pca_sklearn.components_)
 
     pca.transform_data()
     # pca.plot_variance_explained_by_eigenvectors()
     # pca.plot_transformed_data()
     pca.compute_cov_eigenvectors()
-    print('covariance eigenvectors', np.shape(pca.cov_eigenvectors))
+    #print('shape covariance eigenvectors', np.shape(pca.cov_eigenvectors))
     #print(pca.cov_eigenvectors)
     #pca.transform_jax_attributes_to_numpy()
     animation = Animation(pca=pca, n_frames=11, labels=y, cov_samples=V, cov_variables=W, type='equal_per_cluster')
@@ -68,21 +73,21 @@ if __name__ == '__main__':
     ######################################################
     #            Streptomyces Dataset                    #
     ######################################################
-    y, Y, V, W, cov_Y, OUTPUT_FOLDER = streptomyces_data_set()
-    n_features = np.shape(Y)[1]
-    experiment_folder = OUTPUT_FOLDER + 'streptomyces/'
-    pca = apply_animation(y, Y, V, W, cov_Y, n_features, experiment_folder + 'animation')
-    make_plots(y, Y, V, W, cov_Y, n_features, pca, experiment_folder, show_plots=False)
+    #tracemalloc.start()
+    #y, Y, V, W, cov_Y, OUTPUT_FOLDER = streptomyces_data_set()
+    #n_features = 2
+    #pca = apply_animation(y, Y, V, W, cov_Y, n_features, OUTPUT_FOLDER + 'animation')
+
+    #make_plots(y, Y, V, W, cov_Y, n_features, pca, experiment_folder, show_plots=False)
     ######################################################
     #            Wisconsin Dataset                       #
     ######################################################
 
-    # y, Y, V, W, cov_Y, OUTPUT_FOLDER = wisconsin_data_set()
-    # n_features = np.shape(Y)[1]
-    # experiment_folder = OUTPUT_FOLDER + 'wisconsin/'
-    # pca = apply_animation(y, Y, V, W, cov_Y, n_features, experiment_folder + 'animation')
-    # make_plots(y, Y, V, W, cov_Y, n_features, pca, experiment_folder, show_plots=False)
-    # #pca = apply_animation(y, Y, fake_V, fake_W, cov_Y, n_features, OUTPUT_FOLDER + 'Wisonsin')
+    y, Y, V, W, cov_Y, OUTPUT_FOLDER = wisconsin_data_set()
+    n_features = 2
+    pca = apply_animation(y, Y, V, W, cov_Y, n_features, OUTPUT_FOLDER + 'animation')
+    #make_plots(y, Y, V, W, cov_Y, n_features, pca, experiment_folder, show_plots=False)
+    #pca = apply_animation(y, Y, fake_V, fake_W, cov_Y, n_features, OUTPUT_FOLDER + 'Wisonsin')
     # pca = PCA(matrix=Y, cov_data=cov_Y, n_components=n_features, axis=0, compute_jacobian=False)
     # pca.pca_grad()
     # pca.transform_data()
@@ -148,12 +153,14 @@ if __name__ == '__main__':
     # #            error equal per class                   #
     # ######################################################
     # print('start high var outgroup')
+    # sample = np.array([[1, 0.1, -2, 1, 2, 2, 3, 0, 2, 8], [-1, -0.2, 2, -2, -2, 1, 2, 0, 1, 1], [1, 0, 1, 2, 1, -1, 3, 0.5, -1, -1], [-1, 0.01, -1, -1, -1, -4, 0, 0.5, -1, -1], [0, 0, 2, 0, 2, 3, -2, 0, 0, 0]])
     #
+    # #sample = np.array([[1, 0.1, -2, 1, 2], [-1, -0.2, 2, -2, -2], [1, 0, 1, 2, 1], [-1, 0.01, -1, -1, -1], [0, 0, 2, 0, 2]])
     # #define experiment folder
     # experiment_folder = OUTPUT_FOLDER + 'outgroup_high_var/'
     # #experiment_folder = OUTPUT_FOLDER + 'test' + '/'
     # os.makedirs(experiment_folder, exist_ok=True)   # overwrite if exists
-    #
+    # n_features=10
     # X, y, Y, V, W, cov_Y = sample_input_blobs(
     #     n_classes=sample,
     #     n_samples=50,
@@ -162,7 +169,7 @@ if __name__ == '__main__':
     #     uncertainties=[3, 0.1, 0.1, 0.1, 0.1],
     #     random_state=None)
     #
-    # pca = apply_animation(y, Y, V, W, cov_Y, n_features, experiment_folder + 'animation')
+    # pca = apply_animation(y, Y, V, W, cov_Y, 2, experiment_folder + 'animation')
     # make_plots(y, Y, V, W, cov_Y, n_features, pca, experiment_folder, show_plots=False)
     # print('end high var outgroup')
     # print('start high var ingroup')
