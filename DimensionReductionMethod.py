@@ -11,6 +11,11 @@ class DimensionReductionMethod(object):
             self.matrix = matrix
         else:
             raise Exception('Axis out of bounds.')
+        if cov_data is not None:
+            if cov_data.ndim == 1:
+                self.diagonal_data_cov = True
+            else:
+                self.diagonal_data_cov = False
         self.cov_data = cov_data
         self.size = np.shape(matrix)
         if n_components > self.size[1]:
