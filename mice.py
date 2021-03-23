@@ -28,7 +28,7 @@ def unique(list1):
 if __name__ == '__main__':
     output_folder = '../../results/mice/'
     x, labels = mice_data_set()
-    print(x)
+
     # imputation
     # le = preprocessing.LabelEncoder()
     # labels = le.fit_transform(labels)
@@ -41,22 +41,42 @@ if __name__ == '__main__':
     x = np.vstack(imputed)
     min_max_scaler = MinMaxScaler()
     x = min_max_scaler.fit_transform(x)
+    print(x)
+    print(x.shape)
+    replicates = []
+    for j in range(0, 15):
+        r = []
+        for i in range(0, 73):
+            r.append(x[j+i*15])
+        r = np.vstack(r)
+        replicates.append(r)
+    #print(replicates)
+    replicates = np.array(replicates)
+    print(replicates)
+    #print(replicates[0])
+
+    vectorized_stacked = []
+    for i in replicates:
+        vectorized_stacked.append(i.flatten('F'))
+    vectorized_stacked = np.transpose(np.vstack(vectorized_stacked))
+    print(vectorized_stacked.shape)
+
+    cov_Y = np.cov(vectorized_stacked)
+    mean = np.mean(vectorized_stacked, axis=1)
+    print(mean)
+    Y = np.transpose(mean.reshape((77, 73)))
+    print(Y)
+    f = plt.figure()
+    plt.imshow(cov_Y, cmap="YlGnBu")
+    plt.colorbar()
+    plt.title('Covariance matrix of errors')
+    plt.savefig('../../results/mice/cov_matrix.png')
+
     y = []
-    means = []
-    vars = []
-    for i in range(0, 15*72, 15):
+    for i in range(0, 15*73, 15):
         start = i
         end = i + 15
-        means.append(np.mean(x[start:end], axis=0))
-        vars.append(np.var(x[start:end], axis=0))
         y.append(str(labels[i]))
-    print(len(means), len(vars), len(y))
-    Y = np.vstack(means)
-    cov_Y = np.diag(np.vstack(vars).flatten('F'))
-    print(vars[0])
-    print(cov_Y)
-    print(Y.shape)
-    print(cov_Y.shape)
 
     context_shock = ['c-CS-m', 'c-CS-s', 't-CS-m', 't-CS-s']
     no_context_shock = ['c-SC-m', 'c-SC-s', 't-SC-m', 't-SC-s']
@@ -78,7 +98,6 @@ if __name__ == '__main__':
     animation = Animation(pca=pca, n_frames=10, labels=y)
     animation.compute_frames()
     animation.animate('../../results/mice/animation/')
-
     plot_kde(pca, '../../results/mice/', n_samples=100, y=y)
 
 

@@ -4,7 +4,7 @@ from matplotlib import rcParams
 from sklearn.metrics.pairwise import euclidean_distances
 import pandas as pd
 import numpy as np
-from Animation import gs
+#from Animation import gs
 from sklearn.preprocessing import normalize
 import matplotlib
 from generate_samples import easy_example_data_set
@@ -299,7 +299,10 @@ def make_plots_easy_example(pca, y, Y, V, W, cov_Y, n_features, output_folder):
     ax3.fill_between(X, u1_minus_sigma, u1_plus_sigma, color='orange', alpha=.3)
     ax3.fill_between(X, u2_minus_sigma, u2_plus_sigma, color='orange', alpha=.3)
     for i in range(Y.shape[0]):
-        rv = multivariate_normal(Y[i], W * V[i, i])
+        cov = np.array([[cov_Y[0+i, 0+i],cov_Y[4+i, 0+i]],
+                        [cov_Y[4+i, 0+i],cov_Y[4+i, 4+i]]])
+        print('cov', cov)
+        rv = multivariate_normal(Y[i], cov)
         ax3.contour(x, y, rv.pdf(pos), levels=4, cmap=cmaps[i], extend='neither')
         ax3.scatter(Y[i, 0], Y[i, 1], color=colors_dark[i], marker='x', s=markersize)
 
@@ -536,19 +539,19 @@ def plot_kde(pca, OUTPUT_FOLDER, n_samples=100, y=None):
     #
     #     plt.savefig(OUTPUT + 'kde.pdf')
 
-# if __name__ == '__main__':
-#     y, Y, V, W, cov_Y = easy_example_data_set()
-#     print(Y)
-#     pca = PCA(matrix=Y, cov_data=cov_Y, n_components=2, axis=0, compute_jacobian=True)
-#     pca.pca_grad()
-#     print('grad done')
-#     print(pca.eigenvalues)
-#     pca.compute_cov_eigenvectors()
-#     print(pca.eigenvectors.shape)
-#     print('cov eig done')
-#     #pca_gtex.compute_cov_eigenvalues()
-#     pca.transform_data()
-#     print(pca.cov_eigenvectors)
-#     output_folder = '../../results/overview/'
-#     make_plots_easy_example(pca, y, Y, V, W, cov_Y, 2, output_folder)
+if __name__ == '__main__':
+    y, Y, V, W, cov_Y = easy_example_data_set()
+    print(Y)
+    pca = PCA(matrix=Y, cov_data=cov_Y, n_components=2, axis=0, compute_jacobian=True)
+    pca.pca_grad()
+    print('grad done')
+    print(pca.eigenvalues)
+    pca.compute_cov_eigenvectors()
+    print(pca.eigenvectors.shape)
+    print('cov eig done')
+    #pca_gtex.compute_cov_eigenvalues()
+    pca.transform_data()
+    print(pca.cov_eigenvectors)
+    output_folder = '../../results/overview/'
+    make_plots_easy_example(pca, y, Y, V, W, cov_Y, 2, output_folder)
 

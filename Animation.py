@@ -114,8 +114,14 @@ class Animation:
             "layout": {},
             "frames": []
         }
-        fig_dict['layout']['xaxis'] = {'range': [np.min(self.animation_data['PC 0'])-1, np.max(self.animation_data['PC 0'])+1], 'title': f'PC 1 ({explained_var_pc1:.2f})', 'showgrid': False}
-        fig_dict['layout']['yaxis'] = {'range': [np.min(self.animation_data['PC 1'])-1, np.max(self.animation_data['PC 1'])+1], 'title': f'PC 2 ({explained_var_pc2:.2f})', 'showgrid': False}
+        fig_dict['layout']['xaxis'] = {
+            'range': [np.min(self.animation_data['PC 0']) - 1, np.max(self.animation_data['PC 0']) + 1],
+            'title': f'PC 1', 'showgrid': False}
+        fig_dict['layout']['yaxis'] = {
+            'range': [np.min(self.animation_data['PC 1']) - 1, np.max(self.animation_data['PC 1']) + 1],
+            'title': f'PC 2', 'showgrid': False}
+        # fig_dict['layout']['xaxis'] = {'range': [np.min(self.animation_data['PC 0'])-1, np.max(self.animation_data['PC 0'])+1], 'title': f'PC 1 ({explained_var_pc1:.2f})', 'showgrid': False}
+        # fig_dict['layout']['yaxis'] = {'range': [np.min(self.animation_data['PC 1'])-1, np.max(self.animation_data['PC 1'])+1], 'title': f'PC 2 ({explained_var_pc2:.2f})', 'showgrid': False}
         fig_dict['layout']['font'] = {'family': 'Courier New, monospace', 'size': 25}
 
 

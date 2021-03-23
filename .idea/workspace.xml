@@ -2,22 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6dc0a274-f59d-43fc-b16f-f874e0d57cf6" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/arora.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mice.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/plots_paper.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/real_world_example.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sampling.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/space_complexity.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/students_grades_animation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Animation.py" beforeDir="false" afterPath="$PROJECT_DIR$/Animation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DimensionReductionMethod.py" beforeDir="false" afterPath="$PROJECT_DIR$/DimensionReductionMethod.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PCA.py" beforeDir="false" afterPath="$PROJECT_DIR$/PCA.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/generate_samples.py" beforeDir="false" afterPath="$PROJECT_DIR$/generate_samples.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hist.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hist_cov.pdf" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/make_plots.py" beforeDir="false" afterPath="$PROJECT_DIR$/make_plots.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/results/Wisconsin.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/results/Wisconsin.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-plot.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mice.py" beforeDir="false" afterPath="$PROJECT_DIR$/mice.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,23 +72,16 @@
     </state>
     <state x="152" y="-866" key="#com.intellij.execution.impl.EditConfigurationsDialog/-272.-1057.1920.1057/0.23.1440.877@-272.-1057.1920.1057" timestamp="1612170694007" />
     <state x="152" y="-885" key="#com.intellij.execution.impl.EditConfigurationsDialog/-272.-1080.1920.1080/0.0.1440.900@-272.-1080.1920.1080" timestamp="1614160225845" />
-    <state x="318" y="163" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1440.900@0.0.1440.900" timestamp="1607343588592" />
     <state x="-172" y="-980" width="1720" height="880" key="DiffContextDialog" timestamp="1615290361425">
       <screen x="-272" y="-1080" width="1920" height="1080" />
     </state>
     <state x="-172" y="-980" width="1720" height="880" key="DiffContextDialog/-272.-1080.1920.1080/0.0.1440.900@-272.-1080.1920.1080" timestamp="1615290361425" />
-    <state x="222" y="89" key="SettingsEditor" timestamp="1607438660626">
-      <screen x="0" y="0" width="1440" height="900" />
-    </state>
-    <state x="222" y="89" key="SettingsEditor/-272.-1080.1920.1080/0.0.1440.900@0.0.1440.900" timestamp="1607438660626" />
-    <state x="222" y="89" key="SettingsEditor/0.0.1440.900@0.0.1440.900" timestamp="1607357444363" />
-    <state x="663" y="-360" key="com.intellij.ide.util.TipDialog" timestamp="1614156861973">
-      <screen x="-272" y="-1057" width="1920" height="1057" />
+    <state x="663" y="-368" key="com.intellij.ide.util.TipDialog" timestamp="1616507100102">
+      <screen x="-272" y="-1080" width="1920" height="1080" />
     </state>
     <state x="663" y="-360" key="com.intellij.ide.util.TipDialog/-272.-1057.1920.1057/0.23.1440.877@-272.-1057.1920.1057" timestamp="1614156861973" />
     <state x="473" y="327" key="com.intellij.ide.util.TipDialog/-272.-1057.1920.1057/0.23.1440.877@0.23.1440.877" timestamp="1610618327478" />
-    <state x="663" y="-368" key="com.intellij.ide.util.TipDialog/-272.-1080.1920.1080/0.0.1440.900@-272.-1080.1920.1080" timestamp="1612514206175" />
-    <state x="473" y="312" key="com.intellij.ide.util.TipDialog/-272.-1080.1920.1080/0.0.1440.900@0.0.1440.900" timestamp="1607438599543" />
+    <state x="663" y="-368" key="com.intellij.ide.util.TipDialog/-272.-1080.1920.1080/0.0.1440.900@-272.-1080.1920.1080" timestamp="1616507100102" />
     <state x="473" y="312" key="com.intellij.ide.util.TipDialog/0.0.1440.900@0.0.1440.900" timestamp="1610440369659" />
     <state x="473" y="327" key="com.intellij.ide.util.TipDialog/0.23.1440.877@0.23.1440.877" timestamp="1610018049783" />
     <state x="492" y="-616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1610626939989">
@@ -108,5 +92,15 @@
       <screen x="-272" y="-1080" width="1920" height="1080" />
     </state>
     <state x="353" y="-839" width="670" height="676" key="search.everywhere.popup/-272.-1080.1920.1080/0.0.1440.900@-272.-1080.1920.1080" timestamp="1614157721966" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/make_plots.py</url>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

@@ -7,6 +7,7 @@ import pandas as pd
 from scipy.stats import multivariate_normal
 import matplotlib.pyplot as plt
 from sklearn.feature_selection import VarianceThreshold
+from sklearn.datasets import make_spd_matrix
 
 def equipotential_standard_normal(d, n):
     '''Draws n samples from standard normal multivariate gaussian distribution of dimension d which are equipotential
@@ -107,16 +108,23 @@ def wisconsin_data_set():
     d = pd.read_csv(input, sep=',', header=0, names=wisconsin_names)
 
     y = d['label']
-    y = [1 if i=='M' else 0 for i in y]
+    #y = [1 if i=='M' else 0 for i in y]
     Y = d.iloc[:, 2:12].to_numpy()
     #cov_Y = np.diag(d.iloc[:, 11:21].to_numpy().transpose().flatten()**2)
     # W = np.diag([0.05*np.mean(d.iloc[:, i]) for i in range(2, 12)])
     # variables are not independent
-    W = np.diag(np.median(d.iloc[:, 12:22], axis=0))
+    #W = np.diag(np.median(d.iloc[:, 12:22], axis=0))
+    std_errors = d.iloc[:, 12:22].to_numpy()
+    W = np.cov(std_errors, rowvar=False)
     V = np.identity(np.shape(Y)[0])    # samples are independent (different patients)
-    print(W.shape)
+    print(W)
     print(V.shape)
     cov_Y = np.kron(W, V)
+    #cov_Y = np.diag(std_errors.flatten('F'))
+    f = plt.figure()
+    plt.imshow(W, cmap='gray')
+    plt.colorbar()
+    plt.savefig("wisconsin_cov.png")
     return y, Y, V, W, cov_Y, OUTPUT_FOLDER
 
 #@profile
@@ -136,9 +144,11 @@ def streptomyces_data_set(use_log=False, selector=True):
     print(d.shape[0], int(d.shape[1] / 3))
     means = np.zeros((d.shape[0], int(d.shape[1] / 3)))
     vars = np.zeros((d.shape[0], int(d.shape[1] / 3)))
-    for i in range(9):
-        means[:, i] = np.mean([d.iloc[:, i].values, d.iloc[:, i + 9].values, d.iloc[:, i + 2 * 9].values], axis=0)
-        vars[:, i] = np.var([d.iloc[:, i].values, d.iloc[:, i + 9].values, d.iloc[:, i + 2 * 9].values], axis=0)
+    replicates = []
+    #for i in range(9):
+        # means[:, i] = np.mean([d.iloc[:, i].values, d.iloc[:, i + 9].values, d.iloc[:, i + 2 * 9].values], axis=0)
+        # vars[:, i] = np.var([d.iloc[:, i].values, d.iloc[:, i + 9].values, d.iloc[:, i + 2 * 9].values], axis=0)
+
     # genes variables
 
     if use_log==True:
@@ -213,13 +223,17 @@ def easy_example_data_set():
     Y = np.array([[-6.0, 3.0], [-3.0, -3.0], [1.0, 6.0], [5.0, -5.0]])
     #Y = np.random.multivariate_normal([0, 0], np.identity(2), 20)
     y = [str(i) for i in range(Y.shape[0])]
-    V = np.array([[5.0, 0, 0, 0], [0, 0.6, 0, 0], [0, 0, 0.5, 0], [0, 0, 0, 1.0]])
+    V = np.array([[5.0, 1.0, 0.5, -0.3],
+                  [1.0, 0.6, 0.2, -0.1],
+                  [0.5, 0.2, 0.5, 0.5],
+                  [-0.3, -0.1, 0.5, 1.0]])
     #V= np.diag(np.abs(np.random.random(20))*10)
-    W = np.array([[1.5, 0.2], [0.2, 1.0]])
+    W = np.array([[1.5, 0.8], [0.8, 1.0]])
     cov_Y = np.kron(W, V)
     # print(W)
+    cov_Y = make_spd_matrix(8)
     # print(V)
-    # print(cov_Y)
+    print(cov_Y)
 
     return y, Y, V, W, cov_Y
 
@@ -326,4 +340,5 @@ def mice_data_set():
     labels = d['class'].values
     #labels = d.index.values
     d = pd.read_csv(input, sep=';', header=0, index_col=0)
+    print(d.shape)
     return d.values, labels
