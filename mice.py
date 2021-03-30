@@ -98,6 +98,6 @@ if __name__ == '__main__':
     animation = Animation(pca=pca, n_frames=10, labels=y)
     animation.compute_frames()
     animation.animate('../../results/mice/animation/')
-    plot_kde(pca, '../../results/mice/', n_samples=100, y=y)
+    plot_kde(pca, '../../results/mice/', n_samples=1000, y=y)
 
 
