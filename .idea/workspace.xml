@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6dc0a274-f59d-43fc-b16f-f874e0d57cf6" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/._README.md" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Animation.py" beforeDir="false" afterPath="$PROJECT_DIR$/Animation.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mice.py" beforeDir="false" afterPath="$PROJECT_DIR$/mice.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -87,15 +89,5 @@
       <screen x="-272" y="-1080" width="1920" height="1080" />
     </state>
     <state x="353" y="-839" width="670" height="676" key="search.everywhere.popup/-272.-1080.1920.1080/0.0.1440.900@-272.-1080.1920.1080" timestamp="1614157721966" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/make_plots.py</url>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

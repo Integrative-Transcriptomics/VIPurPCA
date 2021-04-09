@@ -95,7 +95,7 @@ if __name__ == '__main__':
     pca.compute_cov_eigenvalues()
     pca.transform_data()
     #np.abs(pca_student_grades.jacobian)*
-    animation = Animation(pca=pca, n_frames=10, labels=y)
+    animation = Animation(pca=pca, n_frames=50, labels=y)
     animation.compute_frames()
     animation.animate('../../results/mice/animation/')
     plot_kde(pca, '../../results/mice/', n_samples=1000, y=y)

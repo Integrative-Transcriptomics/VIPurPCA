@@ -122,7 +122,7 @@ class Animation:
             'title': f'PC 2', 'showgrid': False}
         # fig_dict['layout']['xaxis'] = {'range': [np.min(self.animation_data['PC 0'])-1, np.max(self.animation_data['PC 0'])+1], 'title': f'PC 1 ({explained_var_pc1:.2f})', 'showgrid': False}
         # fig_dict['layout']['yaxis'] = {'range': [np.min(self.animation_data['PC 1'])-1, np.max(self.animation_data['PC 1'])+1], 'title': f'PC 2 ({explained_var_pc2:.2f})', 'showgrid': False}
-        fig_dict['layout']['font'] = {'family': 'Courier New, monospace', 'size': 25}
+        fig_dict['layout']['font'] = {'family': 'Courier New, monospace'}#, 'size': 25}
 
 
         fig_dict["layout"]["hovermode"] = "closest"
@@ -160,7 +160,7 @@ class Animation:
             "yanchor": "top",
             "xanchor": "left",
             "currentvalue": {
-                "font": {"size": 20},
+                #"font": {"size": 20},
                 "prefix": "Frame:",
                 "visible": True,
                 "xanchor": "right"
@@ -179,7 +179,7 @@ class Animation:
                 'x': self.animation_data[self.animation_data['frame'] == 0]['PC 0'].iloc[pos],
                 'y': self.animation_data[self.animation_data['frame'] == 0]['PC 1'].iloc[pos],
                 'mode': 'markers',
-                'marker': {'size': 20},
+                #'marker': {'size': 20},
                 'name': i
             }
             fig_dict['data'].append(data_dict)
@@ -193,7 +193,7 @@ class Animation:
                     'x': self.animation_data[self.animation_data['frame'] == k]['PC 0'].iloc[pos],
                     'y': self.animation_data[self.animation_data['frame'] == k]['PC 1'].iloc[pos],
                     'mode': 'markers',
-                    'marker': {'size': 20},
+                    #'marker': {'size': 20},
                     'name': i,
                     
                 }
