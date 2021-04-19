@@ -11,7 +11,7 @@
 # https://mmistakes.github.io/minimal-mistakes/docs/quick-start-guide/#installing-the-theme
 
 # theme                  : "minimal-mistakes-jekyll"
-remote_theme           : "mmistakes/minimal-mistakes@4.22.0"
+remote_theme             : "mmistakes/minimal-mistakes@4.22.0"
 minimal_mistakes_skin    : "default" # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
 
 # Site Settings
@@ -28,7 +28,7 @@ teaser                   : # path of fallback teaser image, e.g. "/assets/images
 logo                     : "/assets/images/logo.png"
 masthead_title           : "VIPurPCA"
 # breadcrumbs            : false # true, false (default)
-show_date		 : true
+show_date		         : true
 words_per_minute         : 200
 comments:
   provider               : # false (default), "disqus", "discourse", "facebook", "staticman", "staticman_v2", "utterances", "custom"
@@ -97,7 +97,7 @@ analytics:
 author:
   name             : "Susanne Zabel"
   avatar           : "/assets/images/bio-photo3.png"
-  bio              : "PhD student at University of Tübingen."
+  bio              : "PhD student @ University of Tübingen."
   location         : "Tübingen, Germany"
   email            : 
   links:
@@ -114,11 +114,15 @@ author:
       icon: "fab fa-fw fa-facebook-square"
       # url: "https://facebook.com/"
     - label: "GitHub"
-      icon: "fab fa-fo fa-github"
+      icon: "fab fa-fw fa-github"
       url: "https://github.com/susizabel"
+    - label: "Google Scholar"
+      icon: "fas fa-graduation-cap"
+      url: "https://scholar.google.com/citations?user=5MPEb-oAAAAJ&hl=en&oi=ao"
     - label: "Instagram"
       icon: "fab fa-fw fa-instagram"
       url: "https://instagram.com/suseiss"
+
 
 # Site Footer
 footer:

@@ -1,24 +1,29 @@
 ---
-title: "Examples"
-layout: single
-#classes: wide
+title: ""
+layout: splash
 permalink: /examples/
-author_profile: true
-feature_row:
-  - image_path: /assets/images/grades.png
+
+feature_row1:
+  - image_path: /assets/images/dataset-blue.png
     alt: "placeholder image 1"
-    title: "Example 1"
+    title: "Student grades"
     excerpt: "VIPurPCA applied to a small sized simulated dataset."
     url: "/examples/studentgrades/"
     btn_label: "Read More"
     btn_class: "btn--primary"
-  - image_path: /assets/images/mice.png
-    alt: "placeholder image 2"
-    title: "Example 2"
-    excerpt: "VIPurPCA applied to a real-world dataset."
+   
+  - image_path: /assets/images/dataset-blue.png
+    alt: "placeholder image 1"
+    title: "Mice"
+    excerpt: "VIPurPCA applied to a bigger sized real-world dataset."
     url: "/examples/mice/"
     btn_label: "Read More"
-    btn_class: "btn--primary"
+    btn_class: "btn--primary" 
+    
 ---
+## Example datasets
 
-{% include feature_row %}
+VIPurPCA was applied to different datasets. Detailed dataset descriptions and results are shown at the respective pages.
+
+{% include feature_row id="feature_row1" type="left"%}
+
