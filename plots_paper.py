@@ -2,31 +2,30 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 if __name__ == '__main__':
-    d = np.load('../../results/sampling/distance_data_frame.npy')
-    n_samples = [int(i) for i in np.logspace(2, 13, num=12, base=2)]
-    n_features = [3, 5, 7, 9, 11]
+    d = np.load('../../results/sampling/sampling_random_uncertainties/distance_data_frame_mean.npy')
+    n_samples = [int(i) for i in np.logspace(2, 12, num=11, base=2)]
+    n_features = [2, 4, 6, 8, 10]
     f = plt.figure()
-    for dimension, run in enumerate(np.reshape(d, (5, 12))):
+    for dimension, run in enumerate(np.reshape(d, (5, 11))):
         plt.plot(n_samples, run, label=n_features[dimension], alpha=0.5, marker='o')
-        plt.xlabel('number of samples')
+        plt.xlabel('number of iterations')
         plt.ylabel('Hellinger distance')
-        plt.legend(ncol=1, title='# of dimensions')
-        plt.savefig( '../../results/sampling/'+ 'hellinger_distances_test_bearbeitet.pdf')
-    #
-    #
-    #
-    d = np.load('../../results/runtime/runtime_samples.npy')
-    n_samples = [10, 20, 30, 40, 50, 100, 200, 300, 400, 500, 1000, 2000, 3000, 4000, 5000, 7500, 10000, 12500, 15000, 17500, 20000]
-    n_dims = [1, 2, 3, 4]
-    wdhs = 50
+        plt.legend(ncol=1, title='dimensions')
+        plt.savefig( '../../results/sampling/sampling_random_uncertainties'+ 'hellinger_distances_mean.pdf')
 
-    f = plt.figure()
-    for dimension, run in enumerate(np.reshape(d, (4, 21))):
-        plt.plot(n_samples, run, label=str(dimension+1), alpha=0.5, marker='o')
-        plt.ylabel('time in s')
-        plt.xlabel('number of samples')
-        plt.legend(title='# of dimensions')
-        plt.savefig('../../results/runtime/' + 'runtime_samples_bearbeitet.pdf')
+
+    # d = np.load('../../results/runtime/runtime_samples.npy')
+    # n_samples = [10, 20, 30, 40, 50, 100, 200, 300, 400, 500, 1000, 2000, 3000, 4000, 5000, 7500, 10000, 12500, 15000, 17500, 20000]
+    # n_dims = [1, 2, 3, 4]
+    # wdhs = 50
+    #
+    # f = plt.figure()
+    # for dimension, run in enumerate(np.reshape(d, (4, 21))):
+    #     plt.plot(n_samples, run, label=str(dimension+1), alpha=0.5, marker='o')
+    #     plt.ylabel('time in s')
+    #     plt.xlabel('number of samples')
+    #     plt.legend(title='# of dimensions')
+    #     plt.savefig('../../results/runtime/' + 'runtime_samples_bearbeitet.pdf')
 
     # d = np.load('../../results/runtime/runtime_dimensions.npy')
     # target_dimensions = [2, 'all']

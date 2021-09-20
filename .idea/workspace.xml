@@ -2,10 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6dc0a274-f59d-43fc-b16f-f874e0d57cf6" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/._README.md" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/sampling_kde_plot.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Animation.py" beforeDir="false" afterPath="$PROJECT_DIR$/Animation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Lie grouop.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PCA.py" beforeDir="false" afterPath="$PROJECT_DIR$/PCA.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fig_for_paper.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/generate_samples.py" beforeDir="false" afterPath="$PROJECT_DIR$/generate_samples.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/make_plots.py" beforeDir="false" afterPath="$PROJECT_DIR$/plot_introduction_figure.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mice.py" beforeDir="false" afterPath="$PROJECT_DIR$/mice.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/overview_figure_figs.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plots_paper.py" beforeDir="false" afterPath="$PROJECT_DIR$/plots_paper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/real_world_example.py" beforeDir="false" afterPath="$PROJECT_DIR$/real_world_example.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/runtime.py" beforeDir="false" afterPath="$PROJECT_DIR$/runtime.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/runtime_dimensions.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sampling.py" beforeDir="false" afterPath="$PROJECT_DIR$/sampling.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/students_grades_animation.py" beforeDir="false" afterPath="$PROJECT_DIR$/students_grades_animation.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,6 +50,11 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="preferences.general" />
   </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
   <component name="ServiceViewManager">
     <option name="viewStates">
       <list>
@@ -64,30 +81,25 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state x="152" y="-885" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1614160225845">
+    <state x="663" y="-368" key="com.intellij.ide.util.TipDialog" timestamp="1624446264275">
       <screen x="-272" y="-1080" width="1920" height="1080" />
     </state>
-    <state x="152" y="-866" key="#com.intellij.execution.impl.EditConfigurationsDialog/-272.-1057.1920.1057/0.23.1440.877@-272.-1057.1920.1057" timestamp="1612170694007" />
-    <state x="152" y="-885" key="#com.intellij.execution.impl.EditConfigurationsDialog/-272.-1080.1920.1080/0.0.1440.900@-272.-1080.1920.1080" timestamp="1614160225845" />
-    <state x="-172" y="-980" width="1720" height="880" key="DiffContextDialog" timestamp="1615290361425">
+    <state x="663" y="-368" key="com.intellij.ide.util.TipDialog/-272.-1080.1920.1080/0.0.1440.900@-272.-1080.1920.1080" timestamp="1624446264275" />
+    <state x="701" y="569" key="com.intellij.ide.util.TipDialog/-272.-1080.1920.1080/0.0.1440.900@0.0.1440.900" timestamp="1623326424902" />
+    <state x="701" y="569" key="com.intellij.ide.util.TipDialog/0.0.1440.900@0.0.1440.900" timestamp="1623224377420" />
+    <state x="492" y="-616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1627567284511">
       <screen x="-272" y="-1080" width="1920" height="1080" />
     </state>
-    <state x="-172" y="-980" width="1720" height="880" key="DiffContextDialog/-272.-1080.1920.1080/0.0.1440.900@-272.-1080.1920.1080" timestamp="1615290361425" />
-    <state x="663" y="-368" key="com.intellij.ide.util.TipDialog" timestamp="1616507100102">
-      <screen x="-272" y="-1080" width="1920" height="1080" />
-    </state>
-    <state x="663" y="-360" key="com.intellij.ide.util.TipDialog/-272.-1057.1920.1057/0.23.1440.877@-272.-1057.1920.1057" timestamp="1614156861973" />
-    <state x="473" y="327" key="com.intellij.ide.util.TipDialog/-272.-1057.1920.1057/0.23.1440.877@0.23.1440.877" timestamp="1610618327478" />
-    <state x="663" y="-368" key="com.intellij.ide.util.TipDialog/-272.-1080.1920.1080/0.0.1440.900@-272.-1080.1920.1080" timestamp="1616507100102" />
-    <state x="473" y="312" key="com.intellij.ide.util.TipDialog/0.0.1440.900@0.0.1440.900" timestamp="1610440369659" />
-    <state x="473" y="327" key="com.intellij.ide.util.TipDialog/0.23.1440.877@0.23.1440.877" timestamp="1610018049783" />
-    <state x="492" y="-616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1610626939989">
-      <screen x="-272" y="-1080" width="1920" height="1080" />
-    </state>
-    <state x="492" y="-616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/-272.-1080.1920.1080/0.0.1440.900@-272.-1080.1920.1080" timestamp="1610626939989" />
-    <state x="353" y="-839" width="670" height="676" key="search.everywhere.popup" timestamp="1614157721966">
-      <screen x="-272" y="-1080" width="1920" height="1080" />
-    </state>
-    <state x="353" y="-839" width="670" height="676" key="search.everywhere.popup/-272.-1080.1920.1080/0.0.1440.900@-272.-1080.1920.1080" timestamp="1614157721966" />
+    <state x="492" y="-616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/-272.-1080.1920.1080/0.0.1440.900@-272.-1080.1920.1080" timestamp="1627567284511" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/estrogen.py</url>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
