@@ -177,6 +177,7 @@ def make_plots_easy_example(pca, y, Y, V, W, cov_Y, n_features, output_folder):
     print('making plot')
     fontsize = 20
     markersize = 50
+    marker='o'
     # from sklearn.decomposition import PCA
     # pca_sklearn = PCA()
     # y_t = pca_sklearn.fit_transform(Y)
@@ -207,7 +208,7 @@ def make_plots_easy_example(pca, y, Y, V, W, cov_Y, n_features, output_folder):
 
     ax1 = fig1.add_subplot(231)
     for i in range(Y.shape[0]):
-        ax1.scatter(Y[i, 0], Y[i, 1], color=colors_dark[i], marker='x', s=markersize)
+        ax1.scatter(Y[i, 0], Y[i, 1], color=colors_dark[i], marker=marker, s=markersize)
     ax1.plot(X, u1, color='orange', linewidth=2)
     ax1.plot(X, u2, color='orange', linewidth=2)
 
@@ -264,9 +265,9 @@ def make_plots_easy_example(pca, y, Y, V, W, cov_Y, n_features, output_folder):
     ax2 = fig1.add_subplot(232, sharex=ax1, sharey=ax1)
 
     for j in range(Y.shape[0]):
-        ax2.scatter(pca.transformed_data[j, 0], pca.transformed_data[j, 1], color=colors_dark[j], marker='x',
+        ax2.scatter(pca.transformed_data[j, 0], pca.transformed_data[j, 1], color=colors_dark[j], marker=marker,
                     s=markersize)
-        ax5.scatter(pca.transformed_data[j, 0], 0, color=colors_dark[j], marker='x', s=markersize)
+        ax5.scatter(pca.transformed_data[j, 0], 0, color=colors_dark[j], marker=marker, s=markersize)
         ax2.plot((pca.transformed_data[j, 0], pca.transformed_data[j, 0]), (0, pca.transformed_data[j, 1]) , color='orange', linewidth=3, linestyle=':')
     # Move left y-axis and bottim x-axis to centre, passing through (0,0)
     ax2.spines['left'].set_position('center')
@@ -304,7 +305,7 @@ def make_plots_easy_example(pca, y, Y, V, W, cov_Y, n_features, output_folder):
         print('cov', cov)
         rv = multivariate_normal(Y[i], cov)
         ax3.contour(x, y, rv.pdf(pos), levels=4, cmap=cmaps[i], extend='neither')
-        ax3.scatter(Y[i, 0], Y[i, 1], color=colors_dark[i], marker='x', s=markersize)
+        ax3.scatter(Y[i, 0], Y[i, 1], color=colors_dark[i], marker=marker, s=markersize)
 
 
     #ax3.fill_between(x, y1, y2, where=y2 >= y1, facecolor='green', interpolate=True)
@@ -364,11 +365,11 @@ def make_plots_easy_example(pca, y, Y, V, W, cov_Y, n_features, output_folder):
             #ax4.scatter(t[j, 0], t[j, 1], c=colors[j], s=markersize)
             #ax6.scatter(t[j, 0], 0, c=colors[j], s=markersize, alpha=0.8)
     t_array = np.stack(t_array)
-    len_t = len(t_array[:, 0, 0]  )
+    len_t = len(t_array[:, 0, 0])
     for j in range(Y.shape[0]):
-        ax4 = sns.kdeplot(t_array[:, j, 0]+[random()*10**-3 for i in range(len_t)], t_array[:, j, 1]+[random()*10**-3 for i in range(len_t)], shade=True, cmap=cmaps[j], levels=2,
-                        thresh=.01, alpha=1)
-        #ax4 = sns.scatterplot(t_array[:, j, 0], t_array[:, j, 1])
+        #ax4 = sns.kdeplot(t_array[:, j, 0]+[random()*10**-3 for i in range(len_t)], t_array[:, j, 1]+[random()*10**-3 for i in range(len_t)], shade=True, cmap=cmaps[j], levels=2,
+        #                thresh=.01, alpha=1)
+        ax4.scatter(t_array[:, j, 0], t_array[:, j, 1], marker=marker, s=markersize, color=colors_dark[j], edgecolor='white')
         #ax6.scatter(0, 0)
 
         #ax6 = sns.kdeplot(t_array[:, j, 0])
