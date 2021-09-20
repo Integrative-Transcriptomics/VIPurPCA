@@ -1,9 +1,10 @@
 #!/usr/bin/python
+#!/usr/bin/python
 
 from numpy import array
 import jax
 from jax.config import config
-config.update("jax_enable_x64", True)
+#config.update("jax_enable_x64", True)
 #config.update("jax_debug_nans", True)
 #config.parse_flags_with_absl()
 import jax.numpy as np

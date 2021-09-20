@@ -10,6 +10,7 @@ if __name__ == '__main__':
     # Y = Y - np.mean(Y, axis=0)
     # n_features = Y.shape[1]
     n_components = 2
+    print(Y)
     pca_student_grades = PCA(matrix=Y, cov_data=cov_Y, n_components=n_components, axis=0, compute_jacobian=True)
     pca_student_grades.pca_grad()
     pca_student_grades.compute_cov_eigenvectors()

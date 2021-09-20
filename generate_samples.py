@@ -1,6 +1,6 @@
 #!/usr/bin/python
 import numpy as np
-from sklearn.datasets import make_blobs, make_circles
+from sklearn.datasets import make_blobs, make_circles, make_spd_matrix
 from sklearn.preprocessing import StandardScaler
 import argparse
 import pandas as pd
@@ -251,15 +251,34 @@ def medical_example_data_set():
     Y = X + (np.linalg.cholesky(V) @ np.random.standard_normal(np.shape(X))) @ np.transpose(np.linalg.cholesky(W))
     return y, Y, V, W, cov_Y
 
-def dataset_for_sampling(n_datapoints, n_dimensions=2, std=1):
+def dataset_for_sampling(n_datapoints, n_dimensions=2, std=1, scale=True):
     #print(n_samples)
     #Y, y = make_blobs(n_samples=n_datapoints, n_features=n_dimensions, centers=1, cluster_std=std, shuffle=False)
     Y = np.random.multivariate_normal([0 for i in range(n_dimensions)], np.identity(n_dimensions), n_datapoints)
     y = [i for i in range(12)]
-    scale = np.diag([i for i in range(1, Y.shape[1]+1)])
-    Y = Y.dot(scale)
-    cov_Y= np.diag([std for i in range(Y.shape[0]*Y.shape[1])])
+    if scale:
+        scale_values = 0.5*np.diag([i for i in range(1, Y.shape[1]+1)])
+        Y = Y.dot(scale_values)
+    #cov_Y= np.diag([std for i in range(Y.shape[0]*Y.shape[1])])
+    cov_Y = std*make_spd_matrix(Y.shape[0]*Y.shape[1])
+    #print('Y\n', Y, 'cov_Y\n',cov_Y)
     return Y, y, cov_Y
+
+def dataset_for_runtime(n_datapoints, n_dimensions=2, std=1, scale=True):
+    #print(n_samples)
+    #Y, y = make_blobs(n_samples=n_datapoints, n_features=n_dimensions, centers=1, cluster_std=std, shuffle=False)
+    Y = np.random.multivariate_normal([0 for i in range(n_dimensions)], np.identity(n_dimensions), n_datapoints)
+    y = [i for i in range(12)]
+    if scale:
+        scale_values = 0.5*np.diag([i for i in range(1, Y.shape[1]+1)])
+        Y = Y.dot(scale_values)
+    #cov_Y= np.diag([std for i in range(Y.shape[0]*Y.shape[1])])
+    cov_Y = np.random.random(Y.shape[0]*Y.shape[1])
+    #print('Y\n', Y, 'cov_Y\n',cov_Y)
+    return Y, y, cov_Y
+
+#def dataset_for_sampling(n_datapoints, n_dimensions=2, std=1):
+
 
 def student_grades_data_set():
     Y = np.array([[15, 12.29, 14.1, 15],
@@ -341,4 +360,22 @@ def mice_data_set():
     #labels = d.index.values
     d = pd.read_csv(input, sep=';', header=0, index_col=0)
     print(d.shape)
-    return d.values, labels
+    gene_names = list(d.columns)
+    return d.values, labels, gene_names
+
+def estrogen_data_set():
+    Y_df = pd.read_csv("../../data/estrogen/mean.csv")
+    cov_Y_df = pd.read_csv("../../data/estrogen/std.csv")
+    Y = np.transpose(Y_df.values)
+    print(Y.shape)
+    v = []
+    for i in range(Y.shape[1]):
+        v.append(np.var(Y[:, i]))
+    selector = VarianceThreshold(np.quantile(v, 0.9))
+    Y = selector.fit_transform(Y)
+    print(Y.shape)
+    cov_Y = selector.transform(np.transpose(cov_Y_df.values))
+    cov_Y = (np.diag(cov_Y.flatten('F')) * np.sqrt(12))**2
+    #print(cov_Y)
+    labels= list(Y_df.columns)
+    return Y, cov_Y, labels

@@ -15,7 +15,7 @@ import seaborn as sns
 import scipy
 from scipy.spatial import distance
 
-from make_plots import make_plots, make_plots_easy_example
+from plot_introduction_figure import make_plots, make_plots_easy_example
 import pandas as pd
 from matplotlib import rc
 import tracemalloc

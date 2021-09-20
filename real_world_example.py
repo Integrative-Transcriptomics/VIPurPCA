@@ -3,17 +3,38 @@ from generate_samples import student_grades_data_set, dataset_for_sampling, medi
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-import scipy
-from sklearn.preprocessing import normalize
-from sklearn.feature_selection import VarianceThreshold
-from Animation import gs
 import matplotlib.patches as mpatches
 import itertools
-import os
-import sys
+from matplotlib import rcParams
+import matplotlib as mpl
 
 sns.set()
 sns.set_style("ticks")
+cm = 1 / 2.54
+
+class MidpointNormalize(mpl.colors.Normalize):
+    def __init__(self, vmin, vmax, midpoint=0, clip=False):
+        self.midpoint = midpoint
+        mpl.colors.Normalize.__init__(self, vmin, vmax, clip)
+
+    def __call__(self, value, clip=None):
+        normalized_min = max(0, 1 / 2 * (1 - abs((self.midpoint - self.vmin) / (self.midpoint - self.vmax))))
+        normalized_max = min(1, 1 / 2 * (1 + abs((self.vmax - self.midpoint) / (self.midpoint - self.vmin))))
+        normalized_mid = 0.5
+        x, y = [self.vmin, self.midpoint, self.vmax], [normalized_min, normalized_mid, normalized_max]
+        return np.ma.masked_array(np.interp(value, x, y))
+
+
+vals = np.array([[-5., 0], [5, 10]])
+vmin = vals.min()
+vmax = vals.max()
+
+norm = MidpointNormalize(vmin=vmin, vmax=vmax, midpoint=0)
+cmap = 'RdBu_r'
+
+plt.imshow(vals, cmap=cmap, norm=norm)
+plt.colorbar()
+plt.show()
 
 def student_grades(OUTPUT_FOLDER, n_components):
     Y, y, cov_Y = student_grades_data_set()
@@ -29,7 +50,10 @@ def student_grades(OUTPUT_FOLDER, n_components):
 
     n_features = n_components
 
-    fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(nrows=2, ncols=2)
+    cmap = sns.diverging_palette(20, 220, n=200)
+    from matplotlib.colors import ListedColormap
+    my_cmap = ListedColormap(cmap.as_hex())
+    fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(nrows=2, ncols=2, figsize=(10*cm,8*cm))
     # gridsize = (3, 2)
     # fig = plt.figure()
     # ax1 = plt.subplot2grid(gridsize,(0, 0))
@@ -45,26 +69,63 @@ def student_grades(OUTPUT_FOLDER, n_components):
     #
     # ((ax1, ax2, ax3, ax4, ax5, ax6)) = axs.ravel()
 
-    ax1.scatter([i for i in range(1, len(pca_student_grades.eigenvalues) + 1)], pca_student_grades.eigenvalues)
-    ax1.set_xlabel('eigenvalue')
-    ax1.set_title('mean eigenvalues')
+    # ax1.scatter([i for i in range(1, len(pca_student_grades.eigenvalues) + 1)], pca_student_grades.eigenvalues)
+    # ax1.set_xlabel('eigenvalue')
+    # ax1.set_xticks(np.arange(1, 5, step=1))
+    # ax1.set_title('mean eigenvalues')
 
-    cov_eigenvalues = ax3.imshow(pca_student_grades.cov_eigenvalues, cmap="YlGnBu")
+    vmin=np.min(pca_student_grades.eigenvalues)
+    vmax=np.max(pca_student_grades.eigenvalues)
+    cov_eigenvalues = ax1.imshow(np.expand_dims(pca_student_grades.eigenvalues, axis=1), cmap=my_cmap, norm=(MidpointNormalize(midpoint=0, vmin=vmin, vmax=vmax)))
+    fig.colorbar(cov_eigenvalues, ax=ax1)
+    ax1.set_xticks([])
+    ax1.set_yticks([0, 1, 2, 3])
+    ax1.set_yticklabels(str(i) for i in range(1, 5))
+    #ax1.set_yticklabels([1, 2, 3, 4])
+    #ax1.set_title('mean eigenvalues')
+
+    vmin=np.min(pca_student_grades.cov_eigenvalues)
+    vmax=np.max(pca_student_grades.cov_eigenvalues)
+    cov_eigenvalues = ax3.imshow(pca_student_grades.cov_eigenvalues, cmap=my_cmap, norm=(MidpointNormalize(midpoint=0, vmin=vmin, vmax=vmax)))
     fig.colorbar(cov_eigenvalues, ax=ax3)
-    ax3.set_title('cov matrix eigenvalues')
+    ax3.set_xticks([0, 1, 2, 3])
+    ax3.set_yticks([0, 1, 2, 3])
+    ax3.set_xticklabels(str(i) for i in range(1, 5))
+    ax3.set_yticklabels(str(i) for i in range(1, 5))
+    #ax3.set_title('cov matrix eigenvalues')
+    #ax3.set_title('')
 
-    eigenvectors = ax2.imshow(pca_student_grades.eigenvectors, cmap="YlGnBu")
+
+    vmin=np.min(pca_student_grades.eigenvectors)
+    vmax=np.max(pca_student_grades.eigenvectors)
+    eigenvectors = ax2.imshow(pca_student_grades.eigenvectors, cmap=my_cmap, norm=(MidpointNormalize(midpoint=0, vmin=vmin, vmax=vmax)))
     fig.colorbar(eigenvectors, ax=ax2)
-    ax2.set_title('mean eigenvector matrix')
+    ax2.set_xticks([0, 1, 2, 3])
+    ax2.set_yticks([0, 1, 2, 3])
+    ax2.set_xticklabels(str(i) for i in range(1, 5))
+    ax2.set_yticklabels(str(i) for i in range(1, 5))
+    #ax2.set_xlabel('j')
+    #ax2.set_ylabel('i')
+    #ax2.set_title('mean eigenvector matrix')
+    #ax2.set_title('')
 
-    cov_eigenvectors = ax4.imshow(pca_student_grades.cov_eigenvectors, cmap="YlGnBu")
+    vmin = np.min(pca_student_grades.cov_eigenvectors)
+    vmax = np.max(pca_student_grades.cov_eigenvectors)
+    cov_eigenvectors = ax4.imshow(pca_student_grades.cov_eigenvectors, cmap=my_cmap, norm=(MidpointNormalize(midpoint=0, vmin=vmin, vmax=vmax)))
     fig.colorbar(cov_eigenvectors, ax=ax4)
-    ax4.set_title('cov matrix vectorized eigenvectors')
+    ax4.set_xticks([])
+    labels=[]
+    for j in range(1, 5):
+        for i in range(1, 5):
+            labels.append(str(i)+', '+str(j))
+    ax4.set_yticks([i for i in range(16)])
+    ax4.set_yticklabels(labels)
+    #ax4.set_title('cov matrix vectorized eigenvectors')
 
 
-    for ax in [ax2, ax3, ax4]:
-        ax.set_xticks([])
-        ax.set_yticks([])
+    #for ax in [ax1, ax2, ax3, ax4]:
+    #    ax.set_xticks([])
+    #    ax.set_yticks([])
 
     plt.tight_layout()
     plt.savefig(OUTPUT_FOLDER+'student_grades_statistics.pdf')
@@ -72,13 +133,22 @@ def student_grades(OUTPUT_FOLDER, n_components):
 
     xlabels = [' '.join(i) for i in itertools.product(['M1', 'M2', 'P1', 'P2'], y)]
     #ylabels = ['[' + str(x) + ', ' + str(y) +']' for y, x in itertools.product(range(1, 5), range(1, 5))]
-    fig, ax = plt.subplots(nrows=1, ncols=1)
-    jacobian = ax.imshow(pca_student_grades.jacobian, cmap="seismic")
+    fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(7.8*cm, 8*cm))
+
+    # ax = sns.heatmap(
+    #     pca_student_grades.jacobian,
+    #     vmin=-1, vmax=1, center=0,
+    #     cmap=sns.diverging_palette(20, 220, n=200),
+    #     square=True
+    # )
+    vmin = np.min(pca_student_grades.jacobian)
+    vmax = np.max(pca_student_grades.jacobian)
+    jacobian = ax.imshow(pca_student_grades.jacobian, cmap=my_cmap, norm=(MidpointNormalize(midpoint=0, vmin=vmin, vmax=vmax)))
     ax.set_xticks(np.arange(24))
     ax.set_xticklabels(xlabels)
-    #ax.set_yticks(np.arange(4**2))
-    #ax.set_yticklabels(ylabels)
-    ax.set_ylabel('vectorized eigenvector matrix')
+    ax.set_yticks(np.arange(4**2))
+    ax.set_yticklabels(labels)
+    #ax.set_ylabel('vectorized eigenvector matrix')
     # Rotate the tick labels and set their alignment.
     plt.setp(ax.get_xticklabels(),
              rotation=90,
@@ -91,7 +161,7 @@ def student_grades(OUTPUT_FOLDER, n_components):
 
     plt.colorbar(jacobian, cax=cax)
     #fig.colorbar(jacobian, ax=ax)
-    ax.set_title('Jacobian')
+    #ax.set_title('Jacobian')
     plt.tight_layout()
     plt.savefig(OUTPUT_FOLDER+'student_grades_jacobian.pdf')
 
@@ -100,7 +170,7 @@ def student_grades(OUTPUT_FOLDER, n_components):
     ax.set_xticks(np.arange(24))
     ax.set_xticklabels(xlabels)
     ax.set_yticks(np.arange(4**2))
-    #ax.set_yticklabels(ylabels)
+    ax.set_yticklabels([str(i+1) for i in range(4**2)])
     ax.set_ylabel('eigenvector matrix position')
     # Rotate the tick labels and set their alignment.
     plt.setp(ax.get_xticklabels(),
@@ -326,26 +396,32 @@ def streptomyces(n_components):
     return pca_streptomyces, t_array_ours
 
 if __name__ == '__main__':
-    # OUTPUT_FOLDER = '../../results/student_grades/student_grades_all_components/'
-    # student_grades(OUTPUT_FOLDER, 4)
+    plt.rc('font', size=8)
+    plt.rc('xtick', labelsize=6)
+    plt.rc('ytick', labelsize=6)
+    plt.rc('axes', labelsize=8, titlesize=8)
+    rcParams['font.family'] = "sans-serif"
+    rcParams['font.sans-serif'] = "Helvetica"
+    OUTPUT_FOLDER = '../../results/student_grades/student_grades_all_components/'
+    student_grades(OUTPUT_FOLDER, 4)
     # OUTPUT_FOLDER = '../../results/student_grades/student_grades_2_components/'
     # student_grades(OUTPUT_FOLDER, 2)
     # streptomyces('../../results/streptomyces/two_components_flatten_cov/', 2)
-    n_pcs = 10
-    pca, t = streptomyces(n_pcs)
-    t_mean = np.mean(t, axis=0)
-    print(t_mean.shape)
-    t_std = np.std(t, axis=0)
-    timepoints = [21, 29, 33, 37, 41, 45, 49, 53, 57]
-    f = plt.figure()
-    for i in range(n_pcs):
-        dy = t_std[:, i]
-        x = timepoints
-        y = t_mean[:, i]
-        print(dy.shape, len(x), y.shape)
-        plt.errorbar(x, y, yerr=dy, alpha=.75, fmt=':', capsize=3, capthick=1, label=str(i+1))
-        plt.fill_between(x, y1=[y - e for y, e in zip(y, dy)], y2=[y + e for y, e in zip(y, dy)], alpha=.25)
-    plt.legend(title='PC', ncol=2)
-    plt.xlabel('time in h')
-    plt.ylabel('PC coordinates')
-    plt.savefig('../../results/streptomyces/quantnorm/pc_plot.pdf')
+    # n_pcs = 10
+    # pca, t = streptomyces(n_pcs)
+    # t_mean = np.mean(t, axis=0)
+    # print(t_mean.shape)
+    # t_std = np.std(t, axis=0)
+    # timepoints = [21, 29, 33, 37, 41, 45, 49, 53, 57]
+    # f = plt.figure()
+    # for i in range(n_pcs):
+    #     dy = t_std[:, i]
+    #     x = timepoints
+    #     y = t_mean[:, i]
+    #     print(dy.shape, len(x), y.shape)
+    #     plt.errorbar(x, y, yerr=dy, alpha=.75, fmt=':', capsize=3, capthick=1, label=str(i+1))
+    #     plt.fill_between(x, y1=[y - e for y, e in zip(y, dy)], y2=[y + e for y, e in zip(y, dy)], alpha=.25)
+    # plt.legend(title='PC', ncol=2)
+    # plt.xlabel('time in h')
+    # plt.ylabel('PC coordinates')
+    # plt.savefig('../../results/streptomyces/quantnorm/pc_plot.pdf')
