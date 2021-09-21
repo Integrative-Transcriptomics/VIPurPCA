@@ -14,12 +14,19 @@ feature_row1:
    
   - image_path: /assets/images/dataset-blue.png
     alt: "placeholder image 1"
-    title: "Mice"
+    title: "Mice protein expression"
     excerpt: "VIPurPCA applied to a bigger sized real-world dataset."
     url: "/examples/mice/"
     btn_label: "Read More"
     btn_class: "btn--primary" 
-    
+
+  - image_path: /assets/images/dataset-blue.png
+    alt: "placeholder image 1"
+    title: "Human gene expression"
+    excerpt: "VIPurPCA applied to a bigger sized real-world dataset."
+    url: "/examples/human/"
+    btn_label: "Read More"
+    btn_class: "btn--primary"
 ---
 ## Example datasets
 
