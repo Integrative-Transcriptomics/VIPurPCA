@@ -1,11 +1,9 @@
 import time
-from PCA import PCA
-from generate_samples import dataset_for_sampling, dataset_for_runtime
+from src.vipurpca.PCA import PCA
+from generate_samples import dataset_for_runtime
 import matplotlib.pyplot as plt
 import numpy as np
 #plt.rc('font', family='serif')
-import psutil
-import os
 
 
 if __name__ == '__main__':

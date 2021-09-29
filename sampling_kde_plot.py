@@ -1,9 +1,7 @@
-from PCA import PCA
+from src.vipurpca.PCA import PCA
 import numpy as np
 import matplotlib.pyplot as plt
-from generate_samples import dataset_for_sampling, student_grades_data_set, streptomyces_data_set
-import scipy
-from sklearn.preprocessing import normalize
+from generate_samples import dataset_for_sampling
 from sklearn.metrics import mean_squared_error
 import seaborn as sns
 

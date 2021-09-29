@@ -1,9 +1,6 @@
-from PCA import PCA
+from src.vipurpca.PCA import PCA
 from Animation import Animation
 from generate_samples import student_grades_data_set
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
 
 if __name__ == '__main__':
     Y, y, cov_Y = student_grades_data_set()

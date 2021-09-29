@@ -1,20 +1,16 @@
 #!/usr/bin/python
-from PCA import PCA
+from src.vipurpca.PCA import PCA
 import jax.numpy as np
-import scipy
 import numpy as np
 import pandas as pd
-from generate_samples import equipotential_standard_normal, exp_map
+from generate_samples import equipotential_standard_normal
 import plotly.graph_objects as go
-import plotly.express as px
-from sklearn.preprocessing import normalize
 import seaborn as sns
-from plotly.offline import plot
+
+
 # def gs(X):
 #     Q, R = scipy.linalg.qr(X, pivoting=False)
 #     return Q
-import tracemalloc
-
 
 
 def gs(X):

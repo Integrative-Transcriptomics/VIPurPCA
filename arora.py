@@ -1,10 +1,9 @@
-from PCA import PCA
+from src.vipurpca.PCA import PCA
 from collections import Counter
-from generate_samples import gtex_data_set, gtex_data_set_preprocessing, gtex_balanced
+from generate_samples import gtex_balanced
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-import pickle
 import pandas as pd
 from sklearn import preprocessing
 import itertools

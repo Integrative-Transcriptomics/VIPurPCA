@@ -1,10 +1,8 @@
 #!/usr/bin/python
 
-import sys
 import os
-import argparse
-from generate_samples import student_grades_data_set, dataset_for_sampling, medical_example_data_set, equipotential_standard_normal, exp_map, sample_input_blobs, sample_input_circles, wisconsin_data_set, streptomyces_data_set, iris_data_set, heart_failure_data_set, easy_example_data_set
-from PCA import PCA
+from generate_samples import dataset_for_sampling
+from src.vipurpca.PCA import PCA
 #from data_mnist import get_mnist_dataset
 from Animation import Animation
 import numpy as np
@@ -15,10 +13,6 @@ import seaborn as sns
 import scipy
 from scipy.spatial import distance
 
-from plot_introduction_figure import make_plots, make_plots_easy_example
-import pandas as pd
-from matplotlib import rc
-import tracemalloc
 #from memory_profiler import profile
 from Animation import gs
 from sklearn.preprocessing import normalize

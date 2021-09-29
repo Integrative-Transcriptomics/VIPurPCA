@@ -1,5 +1,4 @@
-import time
-from PCA import PCA
+from src.vipurpca.PCA import PCA
 from generate_samples import dataset_for_sampling
 import matplotlib.pyplot as plt
 import numpy as np

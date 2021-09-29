@@ -1,4 +1,4 @@
-from PCA import PCA
+from src.vipurpca.PCA import PCA
 from Animation import Animation
 from generate_samples import wisconsin_data_set
 

@@ -1,18 +1,12 @@
-from PCA import PCA
-from collections import Counter
+from src.vipurpca.PCA import PCA
 from generate_samples import mice_data_set
 import numpy as np
 import matplotlib.pyplot as plt
-import seaborn as sns
-import pickle
 import pandas as pd
 #from sklearn.decomposition import PCA
 from sklearn.impute import SimpleImputer
-from sklearn import preprocessing
 from Animation import Animation
-from plot_introduction_figure import plot_kde
 from sklearn.preprocessing import MinMaxScaler
-import csv
 
 
 def unique(list1):
@@ -108,22 +102,29 @@ if __name__ == '__main__':
     plt.title('Covariance matrix of errors')
     plt.savefig('../../results/mice/cov_matrix.png')
 
+
     # pca = PCA(n_components=2)
     # T = pca.fit_transform(Y)
     # f = plt.figure()
     # plt.scatter(T[:, 0], T[:, 1], c=y, cmap='tab20')
     # plt.savefig(output_folder + 'PCA.pdf')
 
-    n_components = 2
-    pca = PCA(matrix=Y, cov_data=cov_Y, n_components=n_components, axis=0, compute_jacobian=True)
-    pca.pca_grad()
-    pca.compute_cov_eigenvectors()
-    pca.compute_cov_eigenvalues()
-    pca.transform_data()
-    #np.abs(pca_student_grades.jacobian)*
-    animation = Animation(pca=pca, n_frames=50, labels=y)
-    animation.compute_frames()
-    animation.animate('../../results/mice/animation/')
-    #plot_kde(pca, '../../results/mice/', n_samples=1000, y=y)
+    np.save('src/vipurpca/data/mice/mice_data.npy', vectorized_stacked)
+    # np.save('../../data/mice/mean.npy', Y)
+    # np.save('../../data/mice/covariance_matrix.npy', cov_Y)
+    # np.save('../../data/mice/labels.npy', y)
+
+
+    # n_components = 2
+    # pca = PCA(matrix=Y, cov_data=cov_Y, n_components=n_components, axis=0, compute_jacobian=True)
+    # pca.pca_grad()
+    # pca.compute_cov_eigenvectors()
+    # pca.compute_cov_eigenvalues()
+    # pca.transform_data()
+    # #np.abs(pca_student_grades.jacobian)*
+    # animation = Animation(pca=pca, n_frames=50, labels=y)
+    # animation.compute_frames()
+    # animation.animate('../../results/mice/animation/')
+    # #plot_kde(pca, '../../results/mice/', n_samples=1000, y=y)
 
 

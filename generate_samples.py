@@ -295,7 +295,9 @@ def student_grades_data_set():
                      1.33, 0.1, 0.33, 0.1,
                      1.23, 0.33, 0.1, 0.75])
     y = ['Tom', 'David', 'Bob', 'Jane', 'Joe', 'Jack']
-
+    np.save('src/vipurpca/data/studentgrades/mean.npy', Y)
+    np.save('src/vipurpca/data/studentgrades/covariance_matrix.npy', cov_Y)
+    np.save('src/vipurpca/data/studentgrades/labels.npy', y)
     return Y, y, cov_Y
 
 def gtex_data_set_preprocessing(selector=True):
@@ -379,3 +381,6 @@ def estrogen_data_set():
     #print(cov_Y)
     labels= list(Y_df.columns)
     return Y, cov_Y, labels
+
+if __name__ == '__main__':
+    student_grades_data_set()

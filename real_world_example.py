@@ -1,5 +1,5 @@
-from PCA import PCA
-from generate_samples import student_grades_data_set, dataset_for_sampling, medical_example_data_set, equipotential_standard_normal, exp_map, sample_input_blobs, sample_input_circles, wisconsin_data_set, streptomyces_data_set, iris_data_set, heart_failure_data_set, easy_example_data_set
+from src.vipurpca.PCA import PCA
+from generate_samples import student_grades_data_set, streptomyces_data_set
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns

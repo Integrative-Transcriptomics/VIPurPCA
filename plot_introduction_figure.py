@@ -5,15 +5,12 @@ from sklearn.metrics.pairwise import euclidean_distances
 import pandas as pd
 import numpy as np
 #from Animation import gs
-from sklearn.preprocessing import normalize
 import matplotlib
 from generate_samples import easy_example_data_set
 from scipy.stats import multivariate_normal
-from PCA import PCA
-from random import random
+from src.vipurpca.PCA import PCA
 import matplotlib.patches as mpatches
 import itertools
-from sklearn import preprocessing
 
 rcParams.update({'figure.autolayout': True})
 

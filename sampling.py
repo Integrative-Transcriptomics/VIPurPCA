@@ -1,12 +1,10 @@
-from PCA import PCA
+from src.vipurpca.PCA import PCA
 import numpy as np
 import matplotlib.pyplot as plt
-from generate_samples import dataset_for_sampling, student_grades_data_set, streptomyces_data_set
+from generate_samples import dataset_for_sampling
 import scipy
-from sklearn.preprocessing import normalize
 from sklearn.metrics import mean_squared_error
 
-from Animation import gs
 import seaborn as sns
 import itertools
 from sklearn.mixture import GaussianMixture
