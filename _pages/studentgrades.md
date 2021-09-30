@@ -10,19 +10,21 @@ author_profile: false
 
 The following python code produces the subsequently shown animation.
 
-```{python}
-from VIPurPCA import PCA
-# load mean (Y), uncertainty estimates (cov_Y) and lables (y)
-Y, y, cov_Y = student_grades_data_set()
-    pca_student_grades = PCA(matrix=Y, cov_data=cov_Y, n_components=2, axis=0, compute_jacobian=True)
-    # compute PCA with backprop
-    pca_student_grades.pca_grad()
-    # Bayesian inference
-    pca_student_grades.compute_cov_eigenvectors()
-    pca_student_grades.compute_cov_eigenvalues()
-    # Transform data 
-    pca_student_grades.transform_data()
-    # pca_student_grades.animate('animation.html')
+```
+from vipurpca import load_data
+from vipurpca import PCA
+
+# load mean (Y), uncertainty estimates (cov_Y) and labels (y)
+Y, cov_Y, y = load_data.load_mice_dataset()
+pca_student_grades = PCA(matrix=Y, cov_data=cov_Y, n_components=2, axis=0, compute_jacobian=True)
+# compute PCA with backprop
+pca_student_grades.pca_grad()
+# Bayesian inference
+pca_student_grades.compute_cov_eigenvectors()
+pca_student_grades.compute_cov_eigenvalues()
+# Transform data 
+pca_student_grades.transform_data()
+pca_student_grades.animate(n_frames=10, labels=y, outfile='animation.html')
 ```
 
 

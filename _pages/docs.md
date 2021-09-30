@@ -4,16 +4,23 @@ layout: splash
 permalink: /docs/
 ---
 
-# Documentation of VIPurPCA
+## Documentation of VIPurPCA
+
 
 VIPurPCA offers a visualization of uncertainty propagated through the dimensionality reduction technique Principal Component Analysis (PCA) by automatic differentiation.
 
 Code is available [here](https://github.com/Integrative-Transcriptomics/VIPurPCA). 
 
-## Installation
+### Installation
+VIPurPCA requires Python 3.7.3 or later and can be installed via:
 
-## Usage
-### Propagating uncertainty through PCA and visualize output uncertainty as animated scatter plot
+```
+pip install vipurpca
+```
+
+
+### Usage
+#### Propagating uncertainty through PCA and visualize output uncertainty as animated scatter plot
 In order to propagate uncertainty through PCA the class `PCA` can be used, which has the following parameters, attributes, and methods: 
 
 | Parameters    |  |
@@ -39,24 +46,28 @@ In order to propagate uncertainty through PCA the class `PCA` can be used, which
 | Methods    |  |
 | ------------- | ------------- |
 | ***pca_value()*** | Apply PCA to the *matrix*.|
-| ***pca_grad()*** | Apply PCA to the *matrix* and compute the *jacobian* and *jacobian_eigenvalues* using automatic differentiation.|
+| ***pca_grad(center=True)*** | Apply PCA to the *matrix* and compute the *jacobian* and *jacobian_eigenvalues* using automatic differentiation. |
 | ***transform_data()*** | Transform *matrix* according to *eigenvectors* and reduce dimensionality according to *n_components*.|
 | ***compute_cov_eigenvectors()*** | Compute uncertainties of *eigenvectors*.|
 | ***compute_cov_eigenvalues()*** | Compute uncertainties of *eigenvalues*.|
-| ***animate()*** | Generate animation with plotly.|
+| ***animate(n_frames, labels, outfile)*** | Generate animation with *n_frames* number of frames with plotly. *labels* (list, 1d array) indicate labelling of individual samples. Save animation (as html) at *outfile*. |
 
 #### Example
-```{python}
-from VIPurPCA import PCA
-# load mean (Y), uncertainty estimates (cov_Y) and lables (y)
-Y, y, cov_Y = student_grades_data_set()
-    pca_student_grades = PCA(matrix=Y, cov_data=cov_Y, n_components=2, axis=0, compute_jacobian=True)
-    # compute PCA with backprop
-    pca_student_grades.pca_grad()
-    # Bayesian inference
-    pca_student_grades.compute_cov_eigenvectors()
-    pca_student_grades.compute_cov_eigenvalues()
-    # Transform data 
-    pca_student_grades.transform_data()
-    # pca_student_grades.animate('animation.html')
 ```
+from vipurpca import load_data
+from vipurpca import PCA
+
+# load mean (Y), uncertainty estimates (cov_Y) and labels (y)
+Y, cov_Y, y = load_data.load_mice_dataset()
+pca_student_grades = PCA(matrix=Y, cov_data=cov_Y, n_components=2, axis=0, compute_jacobian=True)
+# compute PCA with backprop
+pca_student_grades.pca_grad()
+# Bayesian inference
+pca_student_grades.compute_cov_eigenvectors()
+pca_student_grades.compute_cov_eigenvalues()
+# Transform data 
+pca_student_grades.transform_data()
+pca_student_grades.animate(n_frames=10, labels=y, outfile='animation.html')
+```
+
+The resulting animation can be found here [here](https://integrative-transcriptomics.github.io/VIPurPCA/examples/studentgrades/).
