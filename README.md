@@ -4,9 +4,7 @@
   <img src="https://github.com/Integrative-Transcriptomics/VIPurPCA/blob/main/images/logo.png" width="256">
 </p>
 
-VIPurPCA offers a visualization of uncertainty propagated through the dimensionality reduction technique Principal Component Analysis (PCA) by automatic differentiation.
-
-Code is available [here](https://github.com/Integrative-Transcriptomics/VIPurPCA). 
+VIPurPCA offers a visualization of uncertainty propagated through the dimensionality reduction technique Principal Component Analysis (PCA) by automatic differentiation. 
 
 ### Installation
 VIPurPCA requires Python 3.7.3 or later and can be installed via:
@@ -15,6 +13,7 @@ VIPurPCA requires Python 3.7.3 or later and can be installed via:
 pip install vipurpca
 ```
 
+A website showing results and animations can be found [here](https://github.com/Integrative-Transcriptomics/VIPurPCA).
 
 ### Usage
 #### Propagating uncertainty through PCA and visualize output uncertainty as animated scatter plot
@@ -48,6 +47,16 @@ In order to propagate uncertainty through PCA the class `PCA` can be used, which
 | ***compute_cov_eigenvectors()*** | Compute uncertainties of *eigenvectors*.|
 | ***compute_cov_eigenvalues()*** | Compute uncertainties of *eigenvalues*.|
 | ***animate(n_frames, labels, outfile)*** | Generate animation with *n_frames* number of frames with plotly. *labels* (list, 1d array) indicate labelling of individual samples. Save animation (as html) at *outfile*. |
+
+#### Example datasets
+Three example datasets can be loaded after installing VIPurPCA providing mean, covariance and labels. 
+```
+from vipurpca import load_data
+Y, cov_Y, y = load_data.load_studentgrades_dataset()
+Y, cov_Y, y = load_data.load_mice_dataset()
+Y, cov_Y, y = load_data.load_estrogen_dataset()
+```
+More information on the datasets can be found [here](https://github.com/Integrative-Transcriptomics/VIPurPCA)
 
 #### Example
 ```
