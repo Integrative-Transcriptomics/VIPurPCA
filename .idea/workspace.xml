@@ -2,115 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6dc0a274-f59d-43fc-b16f-f874e0d57cf6" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/MANIFEST.in" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pyproject.toml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/setup.cfg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/vipurpca/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/vipurpca/data/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/vipurpca/data/estrogen/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/vipurpca/data/mice/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/vipurpca/data/studentgrades/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/vipurpca/helper_functions.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/vipurpca/load_data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jax.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jax.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Animation.py" beforeDir="false" afterPath="$PROJECT_DIR$/Animation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DimensionReductionMethod.py" beforeDir="false" afterPath="$PROJECT_DIR$/DimensionReductionMethod.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PCA.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/vipurpca/PCA.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_sass/minimal-mistakes/vendor/breakpoint/_breakpoint.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_sass/minimal-mistakes/vendor/breakpoint/_context.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_sass/minimal-mistakes/vendor/breakpoint/_helpers.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_sass/minimal-mistakes/vendor/breakpoint/_legacy-settings.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_sass/minimal-mistakes/vendor/breakpoint/_no-query.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_sass/minimal-mistakes/vendor/breakpoint/_parsers.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_sass/minimal-mistakes/vendor/breakpoint/_respond-to.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_sass/minimal-mistakes/vendor/breakpoint/_settings.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_sass/minimal-mistakes/vendor/breakpoint/parsers/_double.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_sass/minimal-mistakes/vendor/breakpoint/parsers/_query.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_sass/minimal-mistakes/vendor/breakpoint/parsers/_resolution.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_sass/minimal-mistakes/vendor/breakpoint/parsers/_single.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_sass/minimal-mistakes/vendor/breakpoint/parsers/_triple.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_sass/minimal-mistakes/vendor/breakpoint/parsers/double/_default-pair.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_sass/minimal-mistakes/vendor/breakpoint/parsers/double/_default.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_sass/minimal-mistakes/vendor/breakpoint/parsers/double/_double-string.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_sass/minimal-mistakes/vendor/breakpoint/parsers/resolution/_resolution.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_sass/minimal-mistakes/vendor/breakpoint/parsers/single/_default.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_sass/minimal-mistakes/vendor/breakpoint/parsers/triple/_default.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_sass/minimal-mistakes/vendor/magnific-popup/_magnific-popup.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_sass/minimal-mistakes/vendor/magnific-popup/_settings.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_sass/minimal-mistakes/vendor/susy/_su.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_sass/minimal-mistakes/vendor/susy/_susy-prefix.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_sass/minimal-mistakes/vendor/susy/_susy.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_sass/minimal-mistakes/vendor/susy/plugins/_svg-grid.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_sass/minimal-mistakes/vendor/susy/plugins/svg-grid/_prefix.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_sass/minimal-mistakes/vendor/susy/plugins/svg-grid/_svg-api.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_sass/minimal-mistakes/vendor/susy/plugins/svg-grid/_svg-grid-math.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_sass/minimal-mistakes/vendor/susy/plugins/svg-grid/_svg-settings.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_sass/minimal-mistakes/vendor/susy/plugins/svg-grid/_svg-unprefix.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_sass/minimal-mistakes/vendor/susy/plugins/svg-grid/_svg-utilities.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_sass/minimal-mistakes/vendor/susy/susy/_api.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_sass/minimal-mistakes/vendor/susy/susy/_normalize.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_sass/minimal-mistakes/vendor/susy/susy/_parse.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_sass/minimal-mistakes/vendor/susy/susy/_settings.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_sass/minimal-mistakes/vendor/susy/susy/_su-math.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_sass/minimal-mistakes/vendor/susy/susy/_su-validate.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_sass/minimal-mistakes/vendor/susy/susy/_syntax-helpers.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_sass/minimal-mistakes/vendor/susy/susy/_unprefix.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_sass/minimal-mistakes/vendor/susy/susy/_utilities.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_site/_pages/examples.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_site/about/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_site/assets/css/main.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_site/assets/images/bio-photo.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_site/assets/images/bio-photo2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_site/assets/images/bio-photo3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_site/assets/images/bio-photo_squared.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_site/assets/images/grades.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_site/assets/images/grades2.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_site/assets/images/logo.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_site/assets/images/mice.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_site/assets/images/mountains.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_site/assets/js/_main.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_site/assets/js/lunr/lunr-en.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_site/assets/js/lunr/lunr-gr.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_site/assets/js/lunr/lunr-store.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_site/assets/js/lunr/lunr.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_site/assets/js/lunr/lunr.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_site/assets/js/main.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_site/assets/js/plugins/gumshoe.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_site/assets/js/plugins/jquery.ba-throttle-debounce.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_site/assets/js/plugins/jquery.fitvids.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_site/assets/js/plugins/jquery.greedy-navigation.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_site/assets/js/plugins/jquery.magnific-popup.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_site/assets/js/plugins/smooth-scroll.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_site/assets/js/vendor/jquery/jquery-3.5.1.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_site/banner.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_site/examples/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_site/examples/mice/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_site/examples/studentgrades/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_site/feed.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_site/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_site/minimal-mistakes-jekyll.gemspec" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_site/robots.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_site/screenshot-layouts.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_site/screenshot.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_site/sitemap.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_site/staticman.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/animation_tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/animation_tests.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/arora.py" beforeDir="false" afterPath="$PROJECT_DIR$/arora.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/vendor/jquery/jquery-3.5.1.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/generate_samples.py" beforeDir="false" afterPath="$PROJECT_DIR$/generate_samples.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mice.py" beforeDir="false" afterPath="$PROJECT_DIR$/mice.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/plot_introduction_figure.py" beforeDir="false" afterPath="$PROJECT_DIR$/plot_introduction_figure.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/real_world_example.py" beforeDir="false" afterPath="$PROJECT_DIR$/real_world_example.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/runtime.py" beforeDir="false" afterPath="$PROJECT_DIR$/runtime.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sampling.py" beforeDir="false" afterPath="$PROJECT_DIR$/sampling.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sampling_kde_plot.py" beforeDir="false" afterPath="$PROJECT_DIR$/sampling_kde_plot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/space_complexity.py" beforeDir="false" afterPath="$PROJECT_DIR$/space_complexity.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/students_grades_animation.py" beforeDir="false" afterPath="$PROJECT_DIR$/students_grades_animation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wisconsin.py" beforeDir="false" afterPath="$PROJECT_DIR$/wisconsin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wisconsin_cov.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup.cfg" beforeDir="false" afterPath="$PROJECT_DIR$/setup.cfg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/._test.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/._test.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/test.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/vipurpca.egg-info/requires.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/vipurpca.egg-info/requires.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/vipurpca/PCA.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/vipurpca/PCA.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -216,26 +117,30 @@
     </state>
     <state x="349" y="-554" key="#com.intellij.fileTypes.FileTypeChooser/-272.-1057.1920.1057/0.0.1440.900@0.0.1440.900" timestamp="1632300902472" />
     <state x="349" y="-554" key="#com.intellij.fileTypes.FileTypeChooser/-272.-1057.1920.1057/0.23.1440.877@-272.-1057.1920.1057" timestamp="1632302959046" />
-    <state width="949" height="304" key="GridCell.Tab.0.bottom" timestamp="1632914655825">
-      <screen x="-272" y="-1080" width="1920" height="1080" />
+    <state width="1419" height="163" key="GridCell.Tab.0.bottom" timestamp="1638186212314">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state width="949" height="375" key="GridCell.Tab.0.bottom/-272.-1080.1920.1080/0.0.1440.900@-272.-1080.1920.1080" timestamp="1632914463595" />
     <state width="949" height="304" key="GridCell.Tab.0.bottom/-272.-1080.1920.1080/0.23.1440.877@-272.-1080.1920.1080" timestamp="1632914655825" />
-    <state width="949" height="304" key="GridCell.Tab.0.center" timestamp="1632914655823">
-      <screen x="-272" y="-1080" width="1920" height="1080" />
+    <state width="1419" height="163" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1638186212314" />
+    <state width="1419" height="163" key="GridCell.Tab.0.center" timestamp="1638186212313">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state width="949" height="375" key="GridCell.Tab.0.center/-272.-1080.1920.1080/0.0.1440.900@-272.-1080.1920.1080" timestamp="1632914463594" />
     <state width="949" height="304" key="GridCell.Tab.0.center/-272.-1080.1920.1080/0.23.1440.877@-272.-1080.1920.1080" timestamp="1632914655823" />
-    <state width="949" height="304" key="GridCell.Tab.0.left" timestamp="1632914655823">
-      <screen x="-272" y="-1080" width="1920" height="1080" />
+    <state width="1419" height="163" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1638186212313" />
+    <state width="1419" height="163" key="GridCell.Tab.0.left" timestamp="1638186212312">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state width="949" height="375" key="GridCell.Tab.0.left/-272.-1080.1920.1080/0.0.1440.900@-272.-1080.1920.1080" timestamp="1632914463593" />
     <state width="949" height="304" key="GridCell.Tab.0.left/-272.-1080.1920.1080/0.23.1440.877@-272.-1080.1920.1080" timestamp="1632914655823" />
-    <state width="949" height="304" key="GridCell.Tab.0.right" timestamp="1632914655824">
-      <screen x="-272" y="-1080" width="1920" height="1080" />
+    <state width="1419" height="163" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1638186212312" />
+    <state width="1419" height="163" key="GridCell.Tab.0.right" timestamp="1638186212314">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state width="949" height="375" key="GridCell.Tab.0.right/-272.-1080.1920.1080/0.0.1440.900@-272.-1080.1920.1080" timestamp="1632914463595" />
     <state width="949" height="304" key="GridCell.Tab.0.right/-272.-1080.1920.1080/0.23.1440.877@-272.-1080.1920.1080" timestamp="1632914655824" />
+    <state width="1419" height="163" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1638186212314" />
     <state width="949" height="375" key="GridCell.Tab.1.bottom" timestamp="1632914463598">
       <screen x="-272" y="-1080" width="1920" height="1080" />
     </state>
@@ -256,21 +161,16 @@
     </state>
     <state width="949" height="375" key="GridCell.Tab.1.right/-272.-1080.1920.1080/0.0.1440.900@-272.-1080.1920.1080" timestamp="1632914463597" />
     <state width="949" height="375" key="GridCell.Tab.1.right/-272.-1080.1920.1080/0.23.1440.877@-272.-1080.1920.1080" timestamp="1632904429175" />
-    <state x="221" y="-722" key="SettingsEditor" timestamp="1632914356518">
+    <state x="221" y="-722" key="SettingsEditor" timestamp="1637156532260">
       <screen x="-272" y="-1080" width="1920" height="1080" />
     </state>
-    <state x="221" y="-722" key="SettingsEditor/-272.-1080.1920.1080/0.0.1440.900@-272.-1080.1920.1080" timestamp="1632914356518" />
+    <state x="221" y="-722" key="SettingsEditor/-272.-1080.1920.1080/0.0.1440.900@-272.-1080.1920.1080" timestamp="1637156532260" />
     <state x="221" y="-722" key="SettingsEditor/-272.-1080.1920.1080/0.0.1440.900@0.0.1440.900" timestamp="1632822395031" />
     <state x="221" y="-722" key="SettingsEditor/-272.-1080.1920.1080/0.23.1440.877@-272.-1080.1920.1080" timestamp="1632903184197" />
     <state x="429" y="-331" key="com.intellij.ide.util.TipDialog" timestamp="1632811987743">
       <screen x="-272" y="-1057" width="1920" height="1057" />
     </state>
     <state x="429" y="-331" key="com.intellij.ide.util.TipDialog/-272.-1057.1920.1057/0.23.1440.877@-272.-1057.1920.1057" timestamp="1632811987743" />
-    <state x="663" y="-368" key="com.intellij.ide.util.TipDialog/-272.-1080.1920.1080/0.0.1440.900@-272.-1080.1920.1080" timestamp="1624446264275" />
-    <state x="492" y="-616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1627567284511">
-      <screen x="-272" y="-1080" width="1920" height="1080" />
-    </state>
-    <state x="492" y="-616" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/-272.-1080.1920.1080/0.0.1440.900@-272.-1080.1920.1080" timestamp="1627567284511" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -46,7 +46,7 @@ In order to propagate uncertainty through PCA the class `PCA` can be used, which
 | ***transform_data()*** | Transform *matrix* according to *eigenvectors* and reduce dimensionality according to *n_components*.|
 | ***compute_cov_eigenvectors()*** | Compute uncertainties of *eigenvectors*.|
 | ***compute_cov_eigenvalues()*** | Compute uncertainties of *eigenvalues*.|
-| ***animate(n_frames, labels, outfile)*** | Generate animation with *n_frames* number of frames with plotly. *labels* (list, 1d array) indicate labelling of individual samples. Save animation (as html) at *outfile*. |
+| ***animate(n_frames=10, labels=None, outfile='animation.html')*** | Generate animation with *n_frames* number of frames with plotly. *labels* (list, 1d array) indicate labelling of individual samples. Save animation (as html) at *outfile*. |
 
 #### Example datasets
 Three example datasets can be loaded after installing VIPurPCA providing mean, covariance and labels. 

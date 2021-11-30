@@ -6,6 +6,7 @@
 
 import jax.numpy as np
 from jax import jacrev
+import numpy
 import pandas as pd
 import seaborn as sns
 import plotly.graph_objects as go
@@ -26,13 +27,17 @@ def pca_forward(X):
     #return np.vstack(eigenvectors, np.array([eigenvalues]))
 
 class PCA(object):
-    """PCA: Class computing the PCA and corresponding Jacobian of a matrix.
+    """PCA: extends common PCA to handle uncertain input data. Data mean and covariance are used as an input.
+    Using automatic differentiation, the Jacobian is computed, which is used to infer the covariance of eigenvalues
+    and eigenvectors. Outputs' uncertainty is visualized in an animation.
 
     Attributes:
-        matrix (DataMatrix): Instance of the DataMatrix class
+        matrix (ndarray): mean input matrix
+        cov_data (ndarray, 1d array): input covariance matrix
         n_compontents (int): Number of output dimensions
         axis (int): 0 or 1 indicating if features are in columns (0) or rows (1)
         compute_jacobian (Bool): indicates if jacobian should be computed or not"""
+
     def __init__(self, matrix, cov_data=None, n_components=None, axis=0, compute_jacobian=False):
         self.axis = axis
         if axis == 0:
@@ -42,21 +47,36 @@ class PCA(object):
             self.matrix = matrix
         else:
             raise Exception('Axis out of bounds.')
-        if cov_data is not None:
-            if cov_data.ndim == 1:
+
+        self.size = np.shape(matrix)
+
+        if cov_data is not None:    # uncertainties provided
+            if cov_data.ndim == 1:  # diagonal covariance matrix
                 self.diagonal_data_cov = True
+                if len(cov_data) != self.size[0]*self.size[1]:
+                    raise Exception('The shapes of cov_data and data do not match.')
             else:
                 self.diagonal_data_cov = False
+                if cov_data.shape[0]*cov_data.shape[1] != self.size[0]**2*self.size[1]**2:
+                    raise Exception('The shapes of cov_data and data do not match.')
+
+            self.compute_jacobian = compute_jacobian
+        else:   # uncertainties not provided
+            if compute_jacobian == True:
+                print('No uncertainties given. Stability analysis of PCA is not possible. compute_jacobian=True is neglected and set to False.')
+                self.compute_jacobian = False
+            else:
+                print('No uncertainties given. Stability analysis of PCA is not possible.')
+                self.compute_jacobian = compute_jacobian
 
         self.cov_data = cov_data
-        self.size = np.shape(matrix)
+
         self.n_components = n_components
         if n_components > self.size[1]:
             raise Exception('Number of components to keep exceeds number of dimensions')
         self.covariance = None
         self.eigenvalues = None
         self.eigenvectors = None
-        self.compute_jacobian = compute_jacobian
         self.jacobian_eigenvectors = None
         self.jacobian_eigenvalues = None
         self.cov_eigenvectors = None
@@ -65,14 +85,24 @@ class PCA(object):
 
 
     def pca_value(self):
+        """
+        compute common PCA as an eigendecomposition of the covariance matrix of the inputs' features
+        """
+        print('Start pca_value')
         self.matrix = self.matrix - np.mean(self.matrix, axis=0)
         self.covariance = 1 / self.matrix.shape[0] * np.dot(np.transpose(self.matrix), self.matrix)
         self.eigenvalues, self.eigenvectors = np.linalg.eigh(self.covariance)
         sorting = np.argsort(-self.eigenvalues, axis=0)
         self.eigenvalues = -np.sort(-self.eigenvalues, axis=0)[0:self.n_components]
         self.eigenvectors = np.transpose(self.eigenvectors[:, sorting])[0:self.n_components, :] # eigenvectors in rows
+        print('End pca_value')
 
     def pca_grad(self, center=True):
+        """
+        compute PCA including backpropagation.
+        :param center: if matrix should be centered
+        """
+        print('Start pca_grad')
         if self.compute_jacobian:   # compute jacobian
             global N_COMPONENTS
             N_COMPONENTS = self.n_components
@@ -91,62 +121,88 @@ class PCA(object):
                                         (self.size[1]*self.n_components,
                                         self.size[0]*self.size[1]))
             self.jacobian_eigenvalues = np.reshape(self.jacobian_eigenvalues, (self.n_components, self.size[0]*self.size[1]))
+        print('End pca_grad')
 
     def transform_data(self):
+        """
+        Transform input data according to eigenvectors and number of output dimensions.
+        """
+        print('Start transform_data')
         if self.eigenvalues is None:
             raise Exception('eigenvalues and eigenvectors not computed yet.')
         else:
             self.transformed_data = np.dot(self.matrix, self.eigenvectors[:, 0:self.n_components])
+        print('End transform_data')
 
     def compute_cov_eigenvectors(self):
-        if self.diagonal_data_cov:
-            self.cov_eigenvectors = np.dot(self.jacobian_eigenvectors[0:self.n_components*self.size[1], :] * self.cov_data, np.transpose(self.jacobian_eigenvectors[0:self.n_components*self.size[1], :]))
+        """
+        Infer uncertainty of eigenvectors using the Jacobian
+        """
+        print('Start compute_cov_eigenvectors')
+        if self.compute_jacobian:
+            if self.diagonal_data_cov:
+                self.cov_eigenvectors = np.dot(self.jacobian_eigenvectors[0:self.n_components*self.size[1], :] * self.cov_data, np.transpose(self.jacobian_eigenvectors[0:self.n_components*self.size[1], :]))
+            else:
+                self.cov_eigenvectors = np.dot(np.dot(self.jacobian_eigenvectors[0:self.n_components*self.size[1], :], self.cov_data), np.transpose(self.jacobian_eigenvectors[0:self.n_components*self.size[1], :]))
         else:
-            self.cov_eigenvectors = np.dot(np.dot(self.jacobian_eigenvectors[0:self.n_components*self.size[1], :], self.cov_data), np.transpose(self.jacobian_eigenvectors[0:self.n_components*self.size[1], :]))
+            print('Cannot compute the covariance matrix of the eigenvectors as compute_jacobian=False')
+        print('End compute_cov_eigenvectors')
 
     def compute_cov_eigenvalues(self):
-        if self.diagonal_data_cov:
-            self.cov_eigenvalues = np.dot(self.jacobian_eigenvalues[0:self.n_components, :] * self.cov_data, np.transpose(self.jacobian_eigenvalues[0:self.n_components, :]))
+        """
+        Infer uncertainty of eigenvalues using the Jacobian
+        """
+        print('Start compute_cov_eigenvalues')
+        if self.compute_jacobian:
+            if self.diagonal_data_cov:
+                self.cov_eigenvalues = np.dot(self.jacobian_eigenvalues[0:self.n_components, :] * self.cov_data, np.transpose(self.jacobian_eigenvalues[0:self.n_components, :]))
+            else:
+                self.cov_eigenvalues = np.dot(np.dot(self.jacobian_eigenvalues[0:self.n_components, :], self.cov_data),
+                                              np.transpose(self.jacobian_eigenvalues[0:self.n_components, :]))
         else:
-            self.cov_eigenvalues = np.dot(np.dot(self.jacobian_eigenvalues[0:self.n_components, :], self.cov_data),
-                                          np.transpose(self.jacobian_eigenvalues[0:self.n_components, :]))
+            print('Cannot compute the covariance matrix of the eigenvalues as compute_jacobian=False')
+        print('End compute_cov_eigenvalues')
 
-    def animate(self, n_frames, labels, outfile):
-        L = np.linalg.cholesky(self.cov_eigenvectors + 1e-6 * np.eye(len(self.cov_eigenvectors)))
+    def animate(self, n_frames=10, labels=None, outfile='animation.html'):
+        if self.cov_eigenvectors == None:
+            raise Exception('Cannot animate PCA plot as uncertainty of eigenvectors has not been computed.')
+        """
+        Visualize output uncertainty using an animation
+        :param n_frames: number of frames
+        :param labels: labels of samples
+        :param outfile: location where to save output file
+        """
+        print('Start animate')
+        L = numpy.linalg.cholesky(self.cov_eigenvectors + 1e-6 * numpy.eye(len(self.cov_eigenvectors)))
         vec_mean_eigenvectors = self.eigenvectors[:, 0:self.n_components].flatten('F')
         s = equipotential_standard_normal(self.size[1] * self.n_components,
                                           n_frames)  # draw samples from equipotential manifold
 
-        #uncertainty = np.expand_dims(np.array([1 for i in range(self.size[0])]), axis=1)
-        # uncertainty = np.expand_dims(np.diag(self.pca.cov_data), axis=1)
-        # influence = np.expand_dims(np.sum(np.abs(
-        #     np.transpose(np.reshape(np.sum(np.abs(self.jacobian_eigenvectors), axis=0), (self.size[1], self.size[0])))),
-        #                                   axis=1), axis=1)
-        sample = np.expand_dims(np.array([i for i in range(self.size[0])]), axis=1)
+
+        sample = numpy.expand_dims(numpy.array([i for i in range(self.size[0])]), axis=1)
+
         animation_data = pd.DataFrame(
-            columns=['frame', 'sample'] + ['PC ' + str(i) for i in range(self.n_components)])
-
-
+            columns=['frame', 'sample'] + ['PC ' + str(i) for i in range(self.n_components)])   # Dataframe storing data for animation
 
         for i in range(n_frames):  # one sample per frame
-
-            U = np.transpose(np.reshape(np.expand_dims(vec_mean_eigenvectors + np.dot(L, s[:, i]), axis=1),
+            U = numpy.transpose(numpy.reshape(numpy.expand_dims(vec_mean_eigenvectors + numpy.dot(L, s[:, i]), axis=1),
                                         [self.n_components, self.size[1]]))
 
             T = pd.DataFrame(
                 columns=['frame', 'sample'] + ['PC ' + str(i) for i in range(self.n_components)],
-                data=np.concatenate((np.expand_dims(np.array([int(i) for j in range(self.size[0])]), axis=1),
+                data=numpy.concatenate((numpy.expand_dims(numpy.array([int(i) for j in range(self.size[0])]), axis=1),
                                      # frame: changes with iterator to constant i
                                      sample,
-                                     np.dot(self.matrix, U)),
+                                     numpy.dot(self.matrix, U)),
                                      axis=1))  # transformed data using drawn eigenvectors, changes in each iteration
             animation_data = animation_data.append(T, ignore_index=True)
-        print(T.head())
-        print(animation_data.head())
 
+        if labels is None:
+            labels=['1' for i in range(self.size[0])]
+        # create color palette
         le = preprocessing.LabelEncoder()
         labels_numbers = le.fit_transform(labels)
-        col = sns.hls_palette(np.size(np.unique(labels_numbers)))
+        col = sns.hls_palette(numpy.size(numpy.unique(labels_numbers)))
         col_255 = []
         for i in col:
             to_255 = ()
@@ -154,10 +210,9 @@ class PCA(object):
                 to_255 = to_255 + (int(j * 255),)
             col_255.append(to_255)
         col = ['rgb' + str(i) for i in col_255]
-        unique_labels = np.unique(labels_numbers)
+        unique_labels = numpy.unique(labels_numbers)
         # col = ['#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00','#ffff33']
         col_map = dict(zip(unique_labels, col))
-        # print(col_map)
         c = [col_map[i] for i in list(labels_numbers)]
 
         # make figure
@@ -167,13 +222,13 @@ class PCA(object):
             "frames": []
         }
         fig_dict['layout']['xaxis'] = {
-            'range': [np.min(animation_data['PC 0'].values) - 1, np.max(animation_data['PC 0'].values) + 1],
+            'range': [numpy.min(animation_data['PC 0'].values) - 1, numpy.max(animation_data['PC 0'].values) + 1],
             'title': f'PC 1', 'showgrid': False}
         fig_dict['layout']['yaxis'] = {
-            'range': [np.min(animation_data['PC 1'].values) - 1, np.max(animation_data['PC 1'].values) + 1],
+            'range': [numpy.min(animation_data['PC 1'].values) - 1, numpy.max(animation_data['PC 1'].values) + 1],
             'title': f'PC 2', 'showgrid': False}
-        # fig_dict['layout']['xaxis'] = {'range': [np.min(self.animation_data['PC 0'])-1, np.max(self.animation_data['PC 0'])+1], 'title': f'PC 1 ({explained_var_pc1:.2f})', 'showgrid': False}
-        # fig_dict['layout']['yaxis'] = {'range': [np.min(self.animation_data['PC 1'])-1, np.max(self.animation_data['PC 1'])+1], 'title': f'PC 2 ({explained_var_pc2:.2f})', 'showgrid': False}
+        fig_dict['layout']['xaxis'] = {'range': [numpy.min(animation_data['PC 0'])-1, numpy.max(animation_data['PC 0'])+1], 'title': f'PC 1', 'showgrid': False}
+        fig_dict['layout']['yaxis'] = {'range': [numpy.min(animation_data['PC 1'])-1, numpy.max(animation_data['PC 1'])+1], 'title': f'PC 2', 'showgrid': False}
         fig_dict['layout']['font'] = {'family': 'Courier New, monospace'}  # , 'size': 25}
 
         fig_dict["layout"]["hovermode"] = "closest"
@@ -230,7 +285,7 @@ class PCA(object):
                 'x': animation_data[animation_data['frame'] == 0]['PC 0'].iloc[pos],
                 'y': animation_data[animation_data['frame'] == 0]['PC 1'].iloc[pos],
                 'mode': 'markers',
-                # 'marker': {'size': 20},
+                'marker': {'size': 20},
                 'name': le.inverse_transform([i])[0]
             }
             fig_dict['data'].append(data_dict)
@@ -243,7 +298,7 @@ class PCA(object):
                     'x': animation_data[animation_data['frame'] == k]['PC 0'].iloc[pos],
                     'y': animation_data[animation_data['frame'] == k]['PC 1'].iloc[pos],
                     'mode': 'markers',
-                    # 'marker': {'size': 20},
+                    'marker': {'size': 20},
                     'name': le.inverse_transform([i])[0]
 
                 }
@@ -263,36 +318,5 @@ class PCA(object):
         fig_dict["layout"]["sliders"] = [sliders_dict]
         fig = go.Figure(fig_dict)
         fig.write_html(outfile)
-
-    # def plot_variance_explained_by_eigenvectors(self, n=None):
-    #     if n==None:
-    #         n = len(self.eigenvalues)
-    #     fig = plt.figure()
-    #     plt.bar([i for i in range(0, n)], (self.eigenvalues / np.sum(self.eigenvalues))[0:n])
-    #     plt.plot([i for i in range(0, n)], np.cumsum(self.eigenvalues / np.sum(self.eigenvalues))[0:n], '-bo', c='red')
-    #     plt.savefig('var_explained_by_eigenvalues.png')
-    #
-    # def plot_uncertainty_eigenvalues(self, outfile, n=None):
-    #     if n==None:
-    #        n = len(self.eigenvalues)
-    #     fig = plt.figure()
-    #     plt.errorbar(x=[i for i in range(1, n+1)],
-    #                  y=self.eigenvalues,
-    #                  yerr=[np.sqrt(self.cov_eigenvalues)[i, i] for i in range(n)],
-    #                  fmt='o',
-    #                  color='black',
-    #                  ecolor='lightgray', elinewidth=3, capsize=0
-    #                  )
-    #     plt.savefig(outfile +'eigenvalues_uncertainty.png')
-    #
-    # def plot_cov_eigenvalues(self, outfile):
-    #     fig = plt.figure()
-    #     plt.imshow(self.cov_eigenvalues, cmap='Blues')
-    #     plt.colorbar()
-    #     plt.savefig(outfile + 'cov_matrix_eigenvalues.png')
-    #
-    # def plot_cov_eigenvectors(self, outfile):
-    #     fig = plt.figure()
-    #     plt.imshow(self.cov_eigenvectors, cmap='Blues')
-    #     plt.colorbar()
-    #     plt.savefig(outfile + 'cov_matrix_eigenvectors.png')
+        print('f')
+        print('End animate')
