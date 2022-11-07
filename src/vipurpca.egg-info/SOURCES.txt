@@ -1,8 +1,6 @@
-2.npy
 LICENSE
 MANIFEST.in
 README.md
-all.npy
 pyproject.toml
 setup.cfg
 src/vipurpca/PCA.py
