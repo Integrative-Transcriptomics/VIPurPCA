@@ -9,4 +9,4 @@ author_profile: false
 ## Evaluation of the Visualization
 
 The following animation shows the uncertainty of the lower dimensional representation of the students.
-<img src="/_includes/animation.gif">
+<img src="{{site.baseurl | prepend: site.url}}_includes/animation.gif" alt="zigzag" />
