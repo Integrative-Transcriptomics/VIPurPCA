@@ -43,3 +43,8 @@ def exp_map(mu, E):
             M[:, a] = mu
     M[:, abs(theta) <= 1e-7] = mu
     return (M)
+
+def batch(iterable, n=1):
+    l = len(iterable)
+    for ndx in range(0, l, n):
+        yield iterable[ndx:min(ndx + n, l)]

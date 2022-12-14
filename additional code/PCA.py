@@ -4,14 +4,17 @@
 #config.update("jax_debug_nans", True)
 #config.parse_flags_with_absl()
 
-import jax
 import jax.numpy as np
 from jax import flatten_util, jacrev, random, jvp, vjp, vmap, linearize, jit
 import numpy
-from .helper_functions import *
+import pandas as pd
+import seaborn as sns
+#import plotly.graph_objects as go
+from utils import *
+from VIPurPCAvsMC import *
 from sklearn import preprocessing
 from matplotlib.animation import FuncAnimation, PillowWriter, FFMpegWriter
-import matplotlib.pyplot as plt
+
 N_COMPONENTS = 0
 
 
