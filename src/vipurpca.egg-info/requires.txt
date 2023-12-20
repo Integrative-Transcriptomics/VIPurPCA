@@ -4,4 +4,3 @@ matplotlib
 numpy
 psutil
 scikit-learn
-sklearn

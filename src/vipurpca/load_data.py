@@ -28,8 +28,8 @@ def load_studentgrades_dataset():
               'studentsgrades_data.npz'
               ) as data:
         arr = np.load(data)
-        Y = arr['mean']
-        cov_Y = arr['covariance_matrix']
-        y = arr['labels']
+        Y = arr['arr_0']
+        cov_Y = arr['arr_1']
+        y = arr['arr_2']
 
     return Y, cov_Y, y
