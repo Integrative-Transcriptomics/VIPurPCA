@@ -64,8 +64,8 @@ full_cov=cov_Y, n_components=3, axis=0)
 # compute PCA
 pca.pca_value()
 # Bayesian inference
-pca.compute_cov_eigenvectors(save_jacobian=**False**)# Create animation
-pca.animate(1, 2, labels=y)
+pca.compute_cov_eigenvectors(save_jacobian=False)# Create animation
+pca.animate(1, 2, labels=y, outfile='animation.gif')
 ```
 
 The resulting animation can be found here [here](https://integrative-transcriptomics.github.io/VIPurPCA/examples/human/).
