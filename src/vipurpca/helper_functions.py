@@ -37,6 +37,7 @@ def exp_map(mu, E):
     returns samples lying onto the unit circle.'''
     D = numpy.shape(E)[0]
     theta = numpy.sqrt(numpy.sum(E ** 2, axis=0))
+    numpy.seterr(invalid='ignore')
     M = numpy.dot(mu, numpy.expand_dims(numpy.cos(theta), axis=0)) + E * numpy.sin(theta) / theta
     if (any(numpy.abs(theta) <= 1e-7)):
         for a in (numpy.where(numpy.abs(theta) <= 1e-7)):
