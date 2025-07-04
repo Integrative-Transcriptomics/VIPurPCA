@@ -26,4 +26,4 @@ pca_mice.animate(n_frames=10, labels=y, outfile='animation.html')
 ```
 The following animation shows the uncertainty of the lower dimensional representation of the mice.
 
-{% include mice-animation.html %}
+{% include Mice.html %}

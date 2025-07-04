@@ -29,4 +29,4 @@ pca_student_grades.animate(n_frames=10, labels=y, outfile='animation.html')
 
 
 The following animation shows the uncertainty of the lower dimensional representation of the students.
-{% include student-grades-animation.html %}
+{% include StudentGrades.html %}
